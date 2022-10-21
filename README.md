@@ -1,6 +1,7 @@
 run2 是早期使用的脚本，备份一下
 
 forecast中为利用GFS预报数据驱动wrf进行循环预报的相关脚本
+
     #obsproc 为观测数据的处理，用于同化或者分析
         #station_data_process 将下载的国家站观测数据 txt文件，进行整理，处理为规整的csv
         #station_to_Little_r 将处理好的观测csv 处理成Little_r格式，用于WRFDA的obsproc
