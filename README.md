@@ -22,6 +22,7 @@ forecast中为利用GFS预报数据驱动wrf进行循环预报的相关脚本
         wrfout转csv.ipynb 把wrfout插值到站点，并输出成csv
 
 download 下载数据的脚本
+
     #download_realtime_gfs 只能下载最近一周的gfs，脚本设置了经纬度范围 只下载中国区域
     网址 https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p50.pl
     #download_Sounding 下载探空数据 
