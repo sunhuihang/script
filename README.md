@@ -9,7 +9,6 @@ forecast中为利用GFS预报数据驱动wrf进行循环预报的相关脚本
 
     #gen_be 制作新的背景误差 be.dat文件，run_gen.sh 调用gen_be_wrapper.ksh，批量生成多个be.dat，
     gen_be_plot_wrapper.ksh用于画图分析 （需要WRFDA和ncl）
-
     #run_cycle 循环预报
         #noda 进行无同化的循环预报
         #withda 循环同化预报
