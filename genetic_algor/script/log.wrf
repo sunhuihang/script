@@ -1,0 +1,75 @@
+ starting wrf task            6  of           64
+ starting wrf task            7  of           64
+ starting wrf task            8  of           64
+ starting wrf task           15  of           64
+ starting wrf task           17  of           64
+ starting wrf task           25  of           64
+ starting wrf task           26  of           64
+ starting wrf task           27  of           64
+ starting wrf task           35  of           64
+ starting wrf task           36  of           64
+ starting wrf task           38  of           64
+ starting wrf task           40  of           64
+ starting wrf task           41  of           64
+ starting wrf task           45  of           64
+ starting wrf task           46  of           64
+ starting wrf task           47  of           64
+ starting wrf task           48  of           64
+ starting wrf task           49  of           64
+ starting wrf task           58  of           64
+ starting wrf task           14  of           64
+ starting wrf task           18  of           64
+ starting wrf task           56  of           64
+ starting wrf task            0  of           64
+ starting wrf task            2  of           64
+ starting wrf task           11  of           64
+ starting wrf task           20  of           64
+ starting wrf task           42  of           64
+ starting wrf task           53  of           64
+ starting wrf task           61  of           64
+ starting wrf task            9  of           64
+ starting wrf task           28  of           64
+ starting wrf task           55  of           64
+ starting wrf task           22  of           64
+ starting wrf task            5  of           64
+ starting wrf task           19  of           64
+ starting wrf task           32  of           64
+ starting wrf task           44  of           64
+ starting wrf task           54  of           64
+ starting wrf task           63  of           64
+ starting wrf task            4  of           64
+ starting wrf task           12  of           64
+ starting wrf task           21  of           64
+ starting wrf task           23  of           64
+ starting wrf task           24  of           64
+ starting wrf task           29  of           64
+ starting wrf task           30  of           64
+ starting wrf task           52  of           64
+ starting wrf task           57  of           64
+ starting wrf task           59  of           64
+ starting wrf task           62  of           64
+ starting wrf task            3  of           64
+ starting wrf task           10  of           64
+ starting wrf task           13  of           64
+ starting wrf task           34  of           64
+ starting wrf task           43  of           64
+ starting wrf task           60  of           64
+ starting wrf task            1  of           64
+ starting wrf task           16  of           64
+ starting wrf task           37  of           64
+ starting wrf task           50  of           64
+ starting wrf task           51  of           64
+ starting wrf task           31  of           64
+ starting wrf task           33  of           64
+ starting wrf task           39  of           64
+[mpiexec@k8snode01] Sending Ctrl-C to processes as requested
+[mpiexec@k8snode01] Press Ctrl-C again to force abort
+Ctrl-C caught... cleaning up processes
+[proxy:0:0@k8snode01] HYD_pmcd_pmip_control_cmd_cb (pm/pmiserv/pmip_cb.c:887): assert (!closed) failed
+[proxy:0:0@k8snode01] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:76): callback returned error status
+[proxy:0:0@k8snode01] main (pm/pmiserv/pmip.c:202): demux engine error waiting for event
+[mpiexec@k8snode01] HYDT_bscu_wait_for_completion (tools/bootstrap/utils/bscu_wait.c:76): one of the processes terminated badly; aborting
+[mpiexec@k8snode01] HYDT_bsci_wait_for_completion (tools/bootstrap/src/bsci_wait.c:23): launcher returned error waiting for completion
+[mpiexec@k8snode01] HYD_pmci_wait_for_completion (pm/pmiserv/pmiserv_pmci.c:218): launcher returned error waiting for completion
+[mpiexec@k8snode01] main (ui/mpich/mpiexec.c:340): process manager error waiting for completion
+Run wrf.exe...

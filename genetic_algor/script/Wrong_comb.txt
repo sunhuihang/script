@@ -1,0 +1,2 @@
+Wrong combination:  mp: 3  cu: 5  pbl: 1
+Wrong combination:  mp: 6  cu: 6  pbl: 4
