@@ -27,3 +27,7 @@ download 下载数据的脚本
     网址 https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p50.pl
     #download_Sounding 下载探空数据 
     网址 http://weather.uwyo.edu/upperair/bufrraob.shtml
+
+常用代码中python部分有待完善，边用边补充
+
+遗传算法：调优wrf参数化方案组合
