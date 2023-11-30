@@ -6,6 +6,7 @@ from flow.flow_model import *
 
 
 ############################### os ####################################
+import os
 os.getcwd() #显示当前路径
 os.listdir('./model') #显示目录中的文件
 os.path.exists('./model') #检查./model是否存在，返回False、True
@@ -16,7 +17,7 @@ os.makedirs('test/a/b', mode=0o777,exist_ok=True) #可以生成多级目录，�
 os.system('cp a.sh b.sh') #调用linux的系统命令
 
 ############################### glob ####################################
-python中使用通配符较为少见，在shell中很常见，通过glob可以使用通配符匹配文件文，并返回列表
+#python中使用通配符较为少见，在shell中很常见，通过glob可以使用通配符匹配文件文，并返回列表
 from glob import glob
 file_list=glob('../csv/2020*.csv')
 
@@ -27,20 +28,20 @@ file_list=glob('../csv/2020*.csv')
 ############################### list 列表 ####################################
 #list去重
 a = [11,1,3,5,3,8,9,1,9]
-方法一：可以保持原始顺序
+#方法一：可以保持原始顺序
 		b = []
 		for id in a:
 			if id not in b:
 				b.append(id)
 
-方法二：不保持原始顺序
+#方法二：不保持原始顺序
  		b = list(set(a))
  		从大到小排序
  		b = sorted(list(set(a)))
 
  		b=np.unique(a) 返回的不是列表 是个数组 #去除其中重复的元素，并按元素由大到小返回一个新的数组
 
-#删除列表中的某个元素
+#删除列表中的某个元素：
 #删除列表最后一个元素
 name = names.pop(） 
 #删除倒数第2个元素
@@ -68,6 +69,7 @@ if '王五' in names:
 ############################### pandas ####################################
 #跳过前几行读取csv
 f = pd.read_csv(file_path,skiprows=2) #跳过前两行
+ 
 #list、array、dict转pd.Dataframe
 a = ['20230506','20230607']
 df = pd.DataFrame(a,columns=['time']) #必须要有[]
@@ -94,7 +96,7 @@ df.loc[10] = [11,12,13] #添加index为10的行，如果已经存在就覆盖（
 #合并df
 pd.merge(df_left,df_right,how='inner',on='Station_Id_C') #how:inner/outer/left/right,应用多个列 on=['a','b']
 
-pd.con
+pd.concat
 #根据其中一列去重
 # 保留每个'time'的第一个行，删除后续重复的行
 df.drop_duplicates(subset='time', keep='first', inplace=True)
@@ -160,7 +162,7 @@ df['date'] = df['date'] + timedelta(hours=6)
 
 pd.Series
 
-处理离散数据，one-hot
+#处理离散数据，one-hot编码
 pd.get_dummies(all_features,dummy_na=True)
 ###########################################################################
 
@@ -191,7 +193,7 @@ dbz_all = np.delete(dbz_all,nan_idx,axis=0) #dbz_all是第一维与prep_all维�
 a=np.random.randn(2,2,3)
 a.repeat(2,axis=1) 等同于 np.repeat(a,2,axis=1) #对第1维repeat2次，2个参数，第一个是重复次数，第二个是维度
 
-对比 tensor的repeat
+#对比 tensor的repeat
 a=torch.randn(2,2,3)
 a.repeat(2,1,1) #对第1维repeat两次，第2、3维重复一次（也就是不变），有几个维度就要写几个参数
 
@@ -227,12 +229,12 @@ filtered_lat = np.where(mask, lat_2d, np.nan)
 lon = np.linspace(120, 150, 120)
 lat = np.linspace(0, 40, 40)
 lon_2d, lat_2d = np.meshgrid(lon, lat)
-!必须要把lon_2d 和 lat_2d恢复成1维数组
-1. 已知lat和lon的一维数组，直接对lat lon截取
+# !!必须要把lon_2d 和 lat_2d恢复成1维数组
+#1. 已知lat和lon的一维数组，直接对lat lon截取
    lat = lat[(lat>30)&(lat<=34)]
    lon = lon[(lon>124)&(lon<=138)]
    lon_2d,lat_2d = np.meshgrid(lon,lat)
-2. 只知道lon_2d, lat_2d是等经纬网格的
+#2. 只知道lon_2d, lat_2d是等经纬网格的
    lon = lon_2d[0,:]
    lat = lat_2d[:,0]
    lat = lat[(lat>30)&(lat<=34)]
@@ -242,24 +244,19 @@ lon_2d, lat_2d = np.meshgrid(lon, lat)
 #a对应标签数据b，剔除b中的缺测值以及对应的a
 a = np.random.rand(100, 16, 16)
 b = np.random.choice([1, 2, 3, np.nan], size=100) #b的形状为100
-
-找到不含NaN的索引
+#找到不含NaN的索引
 valid_indices = ~np.isnan(b)
-
-提取不含NaN的标签和对应的数据
+#提取不含NaN的标签和对应的数据
 valid_b = b[valid_indices]
 valid_a = a[valid_indices]
-
-打印结果的形状
 print("不含NaN的标签形状:", valid_b.shape)
 print("对应的数据形状:", valid_a.shape)
 
 
 
-
 #读写npz文件（直接保存numpy数组到文件）
 np.savez('val.npz', dbz=dbz_val, dem=dem_val[:,0,:,:], obs=obs_val)
-f=np.load('val.npz')
+f=np.load('val.npz') #list(f) 可以查看f中的keys
 dbz = f['dbz']
 #计算相关系数和rmse
 non_nan_mask = ~np.isnan(y) #先剔除缺测数据
@@ -268,9 +265,11 @@ y = y[non_nan_mask]
 r = np.corrcoef(x, y)[0,1]
 rmse = np.sqrt(np.nanmean((x - y)**2))
 
+
+
+############################# pickl ######################################
 #读写pkl文件
 import pickle
-
 with open("./scaler.pkl", "wb") as f:
         pickle.dump({
             "mean": np.array(Mean),
@@ -285,9 +284,6 @@ with open("./scaler_256.pkl", "rb") as f:
     dbz_std = pkl["std"]
     dem_mean = pkl["dem_mean"]
     dem_std = pkl["dem_std"]
-
-###########################################################################
-
 
 
 ################################## torch ##################################
@@ -359,7 +355,6 @@ torch.save(mydict, 'mydict')
 mydict2 = torch.load('mydict') #返回的是包含2个key和value的张量字典 {'x': tensor([0,1,2,3]),'y': tensor([0,0,0,0])}
 
 
-
 #torch中device的设置
 torch.device('cpu') , torch.device('cuda'), torch.device('cuda:1')
 #查询可用gpu的数量
@@ -384,16 +379,16 @@ dataset = data.TensorDataset(*data_arrays) # *表示把列表解开入参，即�
 dataloader = data.DataLoader(dataset,batch_size,shuffle=False)  #shuffle为True则是打乱顺序，一般训练集需要打乱，验证和测试不需要
 
 #怎么保存模型
-1.只保存模型的state_dict,推荐文件后缀名是pt或pth
+#1.只保存模型的state_dict,推荐文件后缀名是pt或pth
 torch.save(model.state_dict(), PATH)  
-加载
+#加载
 model = TheModelClass(*args, **kwargs)
 model.load_state_dict(torch.load(PATH))	
 model.eval()
 # - 或者 -
 model.train() #继续训练
 
-2.保存整个模型,不建议，不容易移植使用
+#2.保存整个模型,不建议，不容易移植使用
 torch.save(model, PATH)
 加载
 '''
@@ -407,7 +402,7 @@ model.eval()
 # - 或者 -
 model.train() #继续训练
 
-3.保存加载用于推理的常规Checkpoint/或继续训练
+#3.保存加载用于推理的常规Checkpoint/或继续训练
 torch.save({
             'epoch': epoch,
             'model_state_dict': model.state_dict(),
@@ -415,7 +410,7 @@ torch.save({
             'loss': loss,
             ...
             }, PATH)
-加载
+#加载
 model = TheModelClass(*args, **kwargs)
 optimizer = TheOptimizerClass(*args, **kwargs)
 
@@ -431,7 +426,7 @@ model.train()
 
 
 
-4.保存多个模型到一个文件
+#4.保存多个模型到一个文件
 torch.save({
             'modelA_state_dict': modelA.state_dict(),
             'modelB_state_dict': modelB.state_dict(),
@@ -440,7 +435,7 @@ torch.save({
             ...
             }, PATH)
 
-加载
+#加载
 modelA = TheModelAClass(*args, **kwargs)
 modelB = TheModelBClass(*args, **kwargs)
 optimizerA = TheOptimizerAClass(*args, **kwargs)
@@ -451,15 +446,12 @@ modelA.load_state_dict(checkpoint['modelA_state_dict'])
 modelB.load_state_dict(checkpoint['modelB_state_dict'])
 optimizerA.load_state_dict(checkpoint['optimizerA_state_dict'])
 optimizerB.load_state_dict(checkpoint['optimizerB_state_dict'])
- 
 modelA.eval()
 modelB.eval()
-# - 或者 -
-modelA.train()
-modelB.train()
 
 
-5.使用不同模型的参数来预训练模型
+
+#5.使用不同模型的参数来预训练模型
 '''
 加载部分模型是迁移学习或训练新的复杂模型时常见的场景。利用经过训练的参数，即使只有少数是可用的，将有助于热身开始训练过程，并有希望帮助您的模型比从零开始的训练更快地收敛。
 无论是从缺少一些键的部分 state_dict 加载，还是在拥有更多键的state_dict加载。可以通过设置参数strict = False来忽略与模型不匹配的键。
@@ -474,7 +466,7 @@ modelB.load_state_dict(torch.load(PATH), strict=False)
 
 #######单机多卡
 '''
-两种方式：
+#两种方式：
 torch.nn.DataParallel：早期PyTorch 的类，现在已经不推荐使用了,但是很简单；
 	简单一行代码，包裹model即可：
 		model = DataParallel(model.cuda(), device_ids=[0,1,2,3])
@@ -643,9 +635,8 @@ from PIL import Image
 file_path = '/dataset/radar_map_2308/2023_8_11_2300.png'
 f = Image.open(file_path)
 dbz = np.array(f)
+
 ###########################################################################
-
-
 
 
 
@@ -656,9 +647,9 @@ dbz = np.array(f)
 import xarray as xr
 #读取nc文件
 f=xr.open_dataset('test.nc')
-读取grib文件，以GFS为例
+#读取grib文件，以GFS为例
 
-利用pygrib包，从多个grib2文件中提取相应时间和经纬度范围内，并拼接成一整个xarray数组的代码
+#利用pygrib包，从多个grib2文件中提取相应时间和经纬度范围内，并拼接成一整个xarray数组的代码
 import pygrib as pg
 import xarray
 import numpy as np
@@ -693,25 +684,25 @@ class grib_decode_helper:
 
 
 ################## xesmf
-插值
+#插值
 
 
-##############################其他常用库
+##############################其他常用代码及库
 assert a in ['train','val','test']  #a不在列表中，则报错退出
 assert 0 <= b <= 1   #b不在[0,1]之间则报错退出 	
 
-mask 可以乘以数组，来使得mask为False 对应的数组中的数为0，其他数不变
+#mask 可以乘以数组，来使得mask为False 对应的数组中的数为0，其他数不变
 a = np.random.rand(3,4)*10 #0-10的随机数
 b = deepcopy(a)
 mask = a>5
 mask * a # 小于等于5的数全都变成0,等价于 a[~mask] = 0
 
 
-显示循环进度
+3显示循环进度
 from tqdm import tqdm
 for i in tqdm(range(3)): 实时显示循环的进度
 
-保持脚本内的随机种子都固定
+3保持脚本内的随机种子都固定
 
 #显示目前占用内存较大的变量，显示后 挑选其中变量，用del删除
 import sys
