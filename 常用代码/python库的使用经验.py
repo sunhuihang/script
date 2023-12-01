@@ -97,7 +97,7 @@ df['C'] = [11,12,13]	#添加名为'C'的列，如果已经存在就覆盖（注�
 df.loc[10] = [11,12,13] #添加index为10的行，如果已经存在就覆盖（注意写的长度要跟其他行一样）
 #合并df
 pd.merge(df_left,df_right,how='inner',on='Station_Id_C') #how:inner/outer/left/right,应用多个列 on=['a','b']
-pd.concat([left,right]),axis=0,join='inner')  #当axis=1时与pd.merge类似,pd.concat 用join而不用how 
+pd.concat([left,right])  #常用参数,axis=0,join='inner',当axis=1时与pd.merge类似,pd.concat 用join而不用how 
 #根据其中一列去重
 # 保留每个'time'的第一个行，删除后续重复的行
 df.drop_duplicates(subset='time', keep='first', inplace=True)
