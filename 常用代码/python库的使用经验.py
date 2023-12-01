@@ -10,7 +10,9 @@ import os
 os.getcwd() #显示当前路径
 os.listdir('./model') #显示目录中的文件
 os.path.exists('./model') #检查./model是否存在，返回False、True
-
+dir='test/dir1'
+file='abc.sh'
+os.path.join(dir,file) #返回字符串'test/dir1/abc.sh'，且可以同时输入多个字符串，会自动按顺序生成路径字符串
 os.mkdir('test', mode=0o777) #生成单层目录 test，可选权限设置为777 ，没有exist_ok选项，建议都用os.makedirs
 os.makedirs('test/a/b', mode=0o777,exist_ok=True) #可以生成多级目录，可选exist_ok=True 即使目录存在也不会报错，一直用这个就可以了
 
@@ -95,8 +97,7 @@ df['C'] = [11,12,13]	#添加名为'C'的列，如果已经存在就覆盖（注�
 df.loc[10] = [11,12,13] #添加index为10的行，如果已经存在就覆盖（注意写的长度要跟其他行一样）
 #合并df
 pd.merge(df_left,df_right,how='inner',on='Station_Id_C') #how:inner/outer/left/right,应用多个列 on=['a','b']
-
-pd.concat
+pd.concat([left,right]),axis=0,join='inner')  #当axis=1时与pd.merge类似,pd.concat 用join而不用how 
 #根据其中一列去重
 # 保留每个'time'的第一个行，删除后续重复的行
 df.drop_duplicates(subset='time', keep='first', inplace=True)
@@ -107,7 +108,11 @@ duplicated_columns = df.columns[df.columns.duplicated()]
 	print("重复的列名:", duplicated_columns,len(duplicated_columns))
 df = df.loc[:, ~df.columns.duplicated()]
 
-
+#重命名df中的列名
+student_df.rename(
+    columns={"ID": "Student_ID", "name": "First_Name"},
+    inplace=True）
+	
 #合并一个有df构成的列表
 from functools import reduce
 from glob import glob
