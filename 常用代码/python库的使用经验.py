@@ -312,6 +312,10 @@ a = torch.randn(1,2,3) 或 a = torch.randn((1,2,3)) 结果一样
 
 #生成与另一个tensor大小相同，但全为0/1的tensor
 
+
+#torch.normal()函数：返回一个张量；是从一个给定mean（均值），std（方差）的正态分布中抽取随机数。mean和std都是属于张量类型的
+x=torch.normal(mean=1,std=2,size=(3,4))
+
 #查看tesnsor的类型
 a.dtype   #dtype不要()
 a = a.to(dtype=torch.float32) #把a转为float32类型
