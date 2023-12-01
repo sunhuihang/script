@@ -693,6 +693,15 @@ class grib_decode_helper:
 
 
 ##############################其他常用代码及库
+X = [1,2,3]
+Y = [3,4,5]
+for x,y in zip(X,Y):     # 对X和Y同时循环，效果类似于： for i in range(len(X))
+    test = x + y 				          test = X[i] + Y[i]
+							      
+for i,x in enumerate(X): #循环的同时 也获取索引，i为索引，x为循环值,i常用来作为计数
+    print(i,x)
+
+		
 assert a in ['train','val','test']  #a不在列表中，则报错退出
 assert 0 <= b <= 1   #b不在[0,1]之间则报错退出 	
 
@@ -751,7 +760,9 @@ python -m ipykernel install --user --name sunhh  #把sunhh环境加入可选项
 
 
 ################################### WRF_GPU ########################################
-#需要把许可放到run路径下
+#gpu版的wrf，名为AceCast，支持常用的参数化方案，其中虽然有编译好的wps和real部分的exe但是不能使用，只能用wrf.exe（名为 acecast.exe）
+#网址:https://acecast-docs.readthedocs.io/en/latest/								  
+#从网页上获取许可，（通过邮箱收取），需要把许可放到run路径下
 #检查namelist.input 中的参数化方案是否全部支持
 ./acecast-advisor.sh --tool support-check
 #指定单卡运行WRF
