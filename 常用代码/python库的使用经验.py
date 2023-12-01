@@ -13,6 +13,7 @@ os.path.exists('./model') #检查./model是否存在，返回False、True
 dir='test/dir1'
 file='abc.sh'
 os.path.join(dir,file) #返回字符串'test/dir1/abc.sh'，且可以同时输入多个字符串，会自动按顺序生成路径字符串
+os.path.basename(path) $返回最后一个'/'后的文件名字符串
 os.mkdir('test', mode=0o777) #生成单层目录 test，可选权限设置为777 ，没有exist_ok选项，建议都用os.makedirs
 os.makedirs('test/a/b', mode=0o777,exist_ok=True) #可以生成多级目录，可选exist_ok=True 即使目录存在也不会报错，一直用这个就可以了
 
@@ -693,6 +694,7 @@ class grib_decode_helper:
 
 
 ##############################其他常用代码及库
+#循环
 X = [1,2,3]
 Y = [3,4,5]
 for x,y in zip(X,Y):     # 对X和Y同时循环，效果类似于： for i in range(len(X))
@@ -700,8 +702,16 @@ for x,y in zip(X,Y):     # 对X和Y同时循环，效果类似于： for i in ra
 							      
 for i,x in enumerate(X): #循环的同时 也获取索引，i为索引，x为循环值,i常用来作为计数
     print(i,x)
-
-		
+							      
+#分裂字符串
+f = os.path.abspath('test.csv') # 返回f 为 '/home/qixiang/sunhh/QPE_transfer/test.csv'
+f.split('/')  #返回 ['', 'home', 'qixiang', 'sunhh', 'QPE_transfer', 'test.csv']
+							      
+#链接字符串组成的list
+f_list = ['', 'home', 'qixiang', 'sunhh', 'QPE_transfer', 'test.csv']
+('.').join(f_list) #以 '.' 来链接f_list中的字符串，返回 '.home.qixiang.sunhh.QPE_transfer.test.csv'
+							      
+#强制输入范围
 assert a in ['train','val','test']  #a不在列表中，则报错退出
 assert 0 <= b <= 1   #b不在[0,1]之间则报错退出 	
 
