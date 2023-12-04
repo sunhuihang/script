@@ -1,9 +1,7 @@
-############################## 导入库 ##################################
+############################## 导入自定义库 ##################################
 import sys 
 sys.path.append('./model')	#把model写入系统路径，后面导入model内的py文件才没问题
-from flow.flow_model import * 
-
-
+from test import * 	#test.py是model下的文件
 
 ############################### os ####################################
 import os
@@ -692,11 +690,22 @@ class grib_decode_helper:
             all_grb_t.append(datetime.datetime(grb.year,grb.month,grb.day,grb.hour,grb.minute) )
         return xarray.DataArray(np.array(all_grb_v),coords={'lon':lons[0,:],'lat':lats[:,0],'times':all_grb_t},dims=['times','lat','lon'])
 
+#数据输出成nc文件
 
+
+
+#修改nc文件中的数值
+
+
+
+#修改grib中的数据
 ################## xesmf
 #插值
 
 
+#wrf的Lambert投影数据插值成等经纬度
+
+		
 ##############################其他常用代码及库
 #循环
 X = [1,2,3]
