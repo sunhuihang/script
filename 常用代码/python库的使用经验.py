@@ -699,6 +699,22 @@ class grib_decode_helper:
 
 
 #修改grib中的数据
+
+
+################## netCDF4
+import netCDF4 as nc
+file = 'test.nc'
+dataset =nc.Dataset(file)
+variable=dataset.variables['date']
+
+
+Dataset.variables["varname"][:] = newarr
+Dataset.close()
+
+
+################ wrf-python
+
+    
 ################## xesmf
 #插值
 
