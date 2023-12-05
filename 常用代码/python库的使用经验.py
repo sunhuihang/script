@@ -843,7 +843,9 @@ gdal_merge.py 是gdal库自带的脚本，安装后在conda环境下的bin里，
 # srtm/srtm_china/*tif 下载的srtm的路径
 # -o 输出文件，得到srtm_china.tif
 # -a_nodata 缺省值，srtm缺省值为-32678
-gdal_merge.py srtm/*tif -o srtm_china.tif -a_nodata -32768
+gdal_merge.py srtm/*tif -o out.tif -a_nodata -32768
+#把tif转成nc
+gdalwarp -t_srs "+proj=longlat +datum=WGS84 +no_defs" -co "FORMAT=NC4" out.tif dem.nc
 ###########################################################################
 
 
