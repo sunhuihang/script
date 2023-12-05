@@ -751,11 +751,11 @@ mask = a>5
 mask * a # 小于等于5的数全都变成0,等价于 a[~mask] = 0
 
 
-3显示循环进度
+#显示循环进度
 from tqdm import tqdm
 for i in tqdm(range(3)): 实时显示循环的进度
 
-3保持脚本内的随机种子都固定
+#保持脚本内的随机种子都固定
 
 #显示目前占用内存较大的变量，显示后 挑选其中变量，用del删除
 import sys
@@ -766,7 +766,9 @@ for var_name in dir():
         print("{}{: >25}{}{: >10}{}".format('|',var_name,'|',sys.getsizeof(eval(var_name)),'|'))
 
 
-
+### 多线程下载,默认支持断点续传
+可以用conda、ubantu(sudo apt install)、centos(yum install)安装，在命令行使用
+axel -n 10 https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_12_03.zip
 
 
 ############################### conda环境 ####################################
