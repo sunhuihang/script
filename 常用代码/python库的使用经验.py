@@ -835,6 +835,15 @@ cd convert_geotiff-0.1.0
 ./configure --prefix=`pwd`/build CPPFLAGS=-I${GeoTIFF_PATH}/include LDFLAGS=-L${GeoTIFF_PATH}/lib
 make
 make install
+
+
+
+#将下载的srtm下的tif合并成一个（srtm dem数据）
+gdal_merge.py 是gdal库自带的脚本，安装后在conda环境下的bin里，可以直接命令行使用
+# srtm/srtm_china/*tif 下载的srtm的路径
+# -o 输出文件，得到srtm_china.tif
+# -a_nodata 缺省值，srtm缺省值为-32678
+gdal_merge.py srtm/*tif -o srtm_china.tif -a_nodata -32768
 ###########################################################################
 
 
