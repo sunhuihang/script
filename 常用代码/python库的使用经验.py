@@ -656,7 +656,19 @@ import xarray as xr
 #读取nc文件
 f=xr.open_dataset('test.nc')
 #读取grib文件，以GFS为例
+  ！！！要先安装cfgirb、ECCODES，并且在脚本最上方写入ECCODES的路径（写到share/eccodes/definitions）,可以用find -name 'definitions' 搜一下
+#导入环境变量顶头写
+import os
+os.environ['ECCODES_DEFINITION_PATH']='/home/qixiang/SHARE/anaconda3/envs/sunhh_usual/share/eccodes/definitions/'
+import xarray as xr
+import pygrib
+import datetime
+import numpy as np
+import pandas as pd
+from scipy.interpolate import griddata
 
+
+ 
 #利用pygrib包，从多个grib2文件中提取相应时间和经纬度范围内，并拼接成一整个xarray数组的代码
 import pygrib as pg
 import xarray
