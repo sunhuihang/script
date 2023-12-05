@@ -794,6 +794,10 @@ conda update --all
 2.conda pack -j 8 -n wrf -o /mnt/d/work/wrf.tar.gz #用8线程 把名为'wrf'的环境打包到 /mnt/d/work/wrf.tar.gz
 3.把wrf.tar.gz 拷贝解压到新环境的anaconda3/envs/wrf 下,即可
 
+
+#conda 环境克隆
+conda create -n B --clone A #生成一个B环境，为A的克隆
+      
 ######## 在离线环境中，多安装一个库
 1.在有网络的环境中，新建一个文件夹new，并进入
 2.pip download scikit-image -d ./  #把库及需求的依赖库下载到当前目录
