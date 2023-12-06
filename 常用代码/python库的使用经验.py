@@ -596,6 +596,15 @@ class Conv2D(nn.Module):
 
 #nn.init中包含大量初始化相关函数
 
+
+
+
+#查看模型中每层输入输出形状的变化
+x = torch.rand(size=(1,1,28,28),dtype=torch.float32)
+ for layer in net:
+      x = layer(x)
+      print(layer.__class__.__name__, 'output shape: \t', x.shape)
+
 ###########################################################################
 
 ############################## sklearn ######################################
