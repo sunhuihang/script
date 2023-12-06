@@ -549,6 +549,32 @@ with torch.no_grad():
 #自定义层
 
 
+#定义一个多个层 组成的一个块(多个卷积、ReLU堆叠，最后加一个MaxPool2d)
+def vgg_block(num_convs, in_channels, out_channels):
+    layers = []
+    for _ in range(num_convs):
+        layers.append(nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1))
+	layers.append(nn.ReLU())
+	in_channels = out_channels #下个循环的输入等于上个循环的输出
+    layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
+    return nn.Sequential(*layers)
+
+#生成一个由5个vgg_block组成，最后加一个MLP的模型
+con_arch = ((1,64), (1,128), (2,256), (2,512), (2,512))
+def vgg(conv_arch):
+    conv_blks = []
+    in_channels = 1
+    for (num_convs, out_channels) in conv_arch:
+        conv_blks.append(vgg_block(num_convs, in_channels, out_channels))
+	in_channels = out_channels
+    return nn.Sequential(
+		         *conv_blks, nn.Flatten(),
+		         nn.Linear(out_channels *7 *7, 4096), nn.ReLU(),
+		         nn.Dropout(0.5), nn.Linear(4096, 4096), nn.ReLU(),
+		         nn.Dropout(0.5), nn.Linear(4096,10)
+			)
+net = vgg(conv_arch)
+   
 #构建模型训练
 
 #微调，迁移训练
