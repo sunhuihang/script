@@ -269,7 +269,7 @@ y = y[non_nan_mask]
 r = np.corrcoef(x, y)[0,1]
 rmse = np.sqrt(np.nanmean((x - y)**2))
 
-
+#计算corr、rmse、mae、线性回归、TS（CSI）
 
 ############################# pickl ######################################
 #读写pkl文件
