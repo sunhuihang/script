@@ -653,6 +653,14 @@ a = np.random.rand(4,5)
 b = np.random.rand(4,5)
 plt.scatter(a,b)
 
+#组图快速画图
+# plot a frame from each img_type
+fig,axs = plt.subplots(1,4,figsize=(10,5))
+frame_idx = 30
+axs[0].imshow(vis[:,:,frame_idx]), axs[0].set_title('VIS')
+axs[1].imshow(ir069[:,:,frame_idx]), axs[1].set_title('IR 6.9')
+axs[2].imshow(ir107[:,:,frame_idx]), axs[2].set_title('IR 10.7')
+axs[3].imshow(vil[:,:,frame_idx]), axs[3].set_title('VIL')
 
 创建画布画一张图
 创建多子图 循环画图
