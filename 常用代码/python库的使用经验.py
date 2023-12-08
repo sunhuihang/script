@@ -473,6 +473,39 @@ modelB.load_state_dict(torch.load(PATH), strict=False)
 
 
 #######单机多卡
+
+#将一个小批量数据均匀地分布在多个GPU上
+ data = torch.arange(20).reshape(4, 5)
+ devices = [torch.device('cuda:0'), torch.device('cuda:1')]
+ split = nn.parallel.scatter(data, devices)
+
+#把x、y均匀分到多个GPU上
+def split_batch(X，y, devices):
+    """将X和y拆分到多个设备上"""
+    assert X.shape[0] == y.shape[0]
+    return (nn.parallel.scatter(X, devices),
+            nn.parallel.scatter(y, devices))
+
+#allreduce 函数将所有向量相加，并将结果广播给所有 GPU
+def allreduce(data):
+    for i in range(1, len(data)):
+        data[0][:] += data[i].to(data[0].device)
+    for i in range(l, len(data)):
+        data[i] = data[0].to(data[i].device)
+	
+def train_batch(X,y, device params, devices, lr):
+    X shards,y_shards = split batch(X, y, devices)
+    ls = [loss(lenet(X_shard, device_w), y_shard).sum()
+    for X_shard,y_shard,device_W in zip(X_shards,y_shards,device_params)]
+        for l in ls:
+	    1.backward() 
+        with torch.no_grad():
+	    for i in range(len(device params[0])):
+	        allreduce([device params[c][i].grad
+			   for c in range(len(devices))])
+	for param in device_params:
+	    d2l.sgd(param,lr,X.shape[0])
+
 '''
 #两种方式：
 torch.nn.DataParallel：早期PyTorch 的类，现在已经不推荐使用了,但是很简单；
@@ -487,6 +520,16 @@ torch.nn.parallel.DistributedDataParallel：推荐使用
 # save
 torch.save(model.module.state_dict(), PATH) #注意是调用model.module 在使用多GPU训练并保存模型时，模型的参数名都带上了module前缀
 
+
+
+
+
+
+
+
+
+
+ 
 #怎么导入模型权重进行推理
 import sys 
 sys.path.append('model/wjj_model')
