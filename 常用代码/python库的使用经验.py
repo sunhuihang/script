@@ -272,7 +272,7 @@ rmse = np.sqrt(np.nanmean((x - y)**2))
 #计算corr、rmse、mae、线性回归、TS（CSI）
 
 ############################# pickl ######################################
-#读写pkl文件
+#读写pkl文件,pickle中可以存储df、数组等多种格式数据
 import pickle
 with open("./scaler.pkl", "wb") as f:
         pickle.dump({
