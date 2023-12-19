@@ -858,10 +858,10 @@ Dataset.close()
     
 ################## xesmf
 #插值
-
-
-#wrf的Lambert投影数据插值成等经纬度
-
+https://zhuanlan.zhihu.com/p/560132563
+#wrf的Lambert投影数据插值成站点/等经纬度（相当于2D数组插值到1D数组,即站点或等经纬网格)
+#插值到Lambert或其他二维经纬度网格（相当于2D数组插值到2D数组）
+https://mp.weixin.qq.com/s/VaIjmxWu3zrKlkRmv63bIQ
 		
 ##############################其他常用代码及库
 #循环
