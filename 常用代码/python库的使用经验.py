@@ -123,7 +123,7 @@ df_all = reduce(lambda left,right: pd.merge(left,right,how='inner'),df_list) #�
 
 
 #时间处理
-#把数值或字符串转为timestamp ,即datetime64
+#把np.datetime64、数值或字符串转为timestamp ，即datetime64
 format:
 %Y:四位年份；%y:两位年份 (尽量写4位)
 %m:2位月份；%d:2位日
@@ -134,7 +134,6 @@ pd.to_datetime(2023040500,format='%Y%m%d%H')
 pd.to_datetime('2023040500',format='%Y%m%d%H')
 都可以，但是当写成pd.to_datetime('2023040500') 会报错，
 不能识别写到'时',且不写format的字符串
-
 #格式化df中的时间格式
 df = pd.DataFrame({'date': ['2019-6-10 20:30:0', 
                             '2020-7-1 19:45:30', 
@@ -153,6 +152,10 @@ t.timetuple().tm_yday #提取t所在的日期在一年中的day (1-366)
 df.to_csv('df.csv',index=False)
 
 ##### datetime
+#timestamp转为datetime.datetime
+ts = pd.to_datetime('2023040500',format='%Y%m%d%H')
+ts.to_pydatetime()
+
 #把字符串时间按指定格式读取，转成datetime.datetime
 from datetime import datetime,timedelta
 time_datetime=datetime.strptime('20230405_0000','%Y%m%d_%H%M%S')
