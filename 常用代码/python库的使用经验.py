@@ -191,6 +191,12 @@ a = np.array([[1, 2], [3, 4]])
 b = np.array([[5, 6]]) 
 c = np.append(a,b) #结果为： [1 2 3 4 5 6] #将二维数组变为了一维数组
 
+#统计一个数组的元素个数
+a.size
+#统计一个数组中 非nan值的个数
+np.count_nonzero(~np.isnan(a))   #先通过 ~np.isnan(a) 获取非nan的布尔索引，在统计非0值的个数（False为0，True为1）
+
+
 #去除一组元素
 nan_idx = np.isnan(prep_all)
 prep_all = np.delete(prep_all,nan_idx) #prep_all是个一维数组，去除其中的nan
