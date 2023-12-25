@@ -109,7 +109,17 @@ gdal_rasterize -of netCDF -burn 1 -tr 0.01 0.01 china.shp china_mask.nc
 
 2. cdo ifthen china_mask.nc global.nc china.nc
 
+
 #选取指定月份数据做平均（其他同理）
 cdo -yearmean -selmon,5,6,7 infile.nc outfile.nc
 #季节平均(可添加选项 -select,season=DJF 指定季节月份)
 cdo -seasmean infile.nc outfile.nc
+
+#cdo时间步长插值,start_date格式为2021-11-11, start_time格式为15:00:00,step (second, minute, hour, day, month, year)
+cdo inttime,start_date,start_time,step infile outfile
+cdo inttime,2021-11-11,15:00:00,5minute test_cat.grib2 test_inttime2.grib2
+#cdo把文件插值成n个时次（intntime 与上面的inttime不同）
+cdo intntime,n infile outfile
+
+#压缩存储 -z ：szip 按grib1的压缩，jpeg按照grib2的压缩（压缩最狠）
+cdo -z jpeg -inttime,2021-11-11,15:00:00,5minute test_cat.grib2 test_inttime2.grib2
