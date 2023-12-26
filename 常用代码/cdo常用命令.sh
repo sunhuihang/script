@@ -23,6 +23,12 @@ cdo monmean in out
 # 集合平均(#多命令同时使用时发现会有问题，例如cdo -f nc copy -ensemean -selmon,5,6,7 infile*.grib out.nc,输出的不是ensmean，而是多成员cat结果，不止为何)
 cdo ensmean infile1 infile2 outfile
 
+# 指定维度平均（例如SEAS5 中有51个成员 数据为 （time,number,lat,lon）），
+1.若cdo可以识别number为level ，则可以使用cdo vertmean,weights=FALSE 201601_daily.nc 201601_daily_test.nc (vertmean是垂直 层厚权重平均，weights=False将权重固定为1)
+			      或使用 cdo splitlevel 201601_daily.nc test ,然后 cdo ensmean test*nc 201601_daily_test.nc
+2.若cdo无法识别为level，可以把指定维度改名为depth，然后使用cdo vertmean,weights=FALSE 201601_daily.nc 201601_daily_test.nc
+
+
 # 选取层次 变量 ,提取25-900的变量T  （在25-900hpa之间的都提取）
 cdo -sellevel,25/900 -selname,T infile outfile
 
