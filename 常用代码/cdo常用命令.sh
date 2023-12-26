@@ -17,8 +17,10 @@ cdo select,name=t,u,v infile outfile
 #将数据按年月分开(cdo版本要高于1.9.0) ，#splityear splitmon等等都有
 cdo splityearmon infile
 
-# 求月平均,自动判断时间
-cdo monmean in out
+# 求月平均,自动判断时间，每年每月都有个逐月结果
+cdo monmean infile outfile
+# 求月平均气候态,最多只有12个月结果，12个月的气候态
+cdo ymonmean infile outfile
 
 # 集合平均(#多命令同时使用时发现会有问题，例如cdo -f nc copy -ensemean -selmon,5,6,7 infile*.grib out.nc,输出的不是ensmean，而是多成员cat结果，不止为何)
 cdo ensmean infile1 infile2 outfile
