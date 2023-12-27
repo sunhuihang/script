@@ -177,7 +177,7 @@ pd.get_dummies(all_features,dummy_na=True)
 
 
 ############################### numpy ####################################
-#如果numpy中存放了timestamp等类型，可能报错pickle相关内容，添加allow_pickle=True
+#如果numpy中存放了timestamp等类型，可能报错pickle相关内容(加载对应的变量时会显示ValueError: Object arrays cannot be loaded when allow_pickle=False)，添加allow_pickle=True
 np.load(file,allow_pickle=True)
 
 #numpy.random
