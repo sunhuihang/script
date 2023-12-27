@@ -177,6 +177,9 @@ pd.get_dummies(all_features,dummy_na=True)
 
 
 ############################### numpy ####################################
+#如果numpy中存放了timestamp等类型，可能报错pickle相关内容，添加allow_pickle=True
+np.load(file,allow_pickle=True)
+
 #numpy.random
 #生成 与另一个数组大小相同 ，但全为0的数组
 np.zeros((2,3)) #生成一个全是0的数组
