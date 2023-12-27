@@ -30,17 +30,17 @@ file_list=glob('../csv/2020*.csv')
 #list去重
 a = [11,1,3,5,3,8,9,1,9]
 #方法一：可以保持原始顺序
-		b = []
-		for id in a:
-			if id not in b:
-				b.append(id)
+	b = []
+	for id in a:
+	    if id not in b:
+	        b.append(id)
 
 #方法二：不保持原始顺序
- 		b = list(set(a))
- 		从大到小排序
- 		b = sorted(list(set(a)))
+	b = list(set(a))
+	从大到小排序
+	b = sorted(list(set(a)))
 
- 		b=np.unique(a) 返回的不是列表 是个数组 #去除其中重复的元素，并按元素由大到小返回一个新的数组
+	b=np.unique(a) 返回的不是列表 是个数组 #去除其中重复的元素，并按元素由大到小返回一个新的数组
 
 #删除列表中的某个元素：
 #删除列表最后一个元素
