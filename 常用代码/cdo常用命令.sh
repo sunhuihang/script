@@ -47,7 +47,8 @@ cdo remapbil,r360x180 -selvar,sst HadISST_sst.nc sst.nc
 cdo delete,date=2016-01-01 infile outfile
 #删除2016-01-01到2016-01-31的数据
 cdo delete,date=2016-01-01,2016-01-31 infile outfile
-
+#选择指定时间步长的数据,提前时间步长4-360的数据，根据cdo sinfon可以知道一共有多少timestep
+cdo seltimestep,4/360 infile outfile
 
 #求气候态
 #先看文件的时间格式是1985-01还是1985-01-01
