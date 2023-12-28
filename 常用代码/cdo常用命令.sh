@@ -10,6 +10,8 @@ cdo cat infile1 infile2 outfile
 #出现NetCDF: Numeric conversion not representable错误时，使用以下命令
 cdo -b F64 mergetime infile1 infile2 outfile
 
+#合并同一时间多个变量的文件，infile1和2中为同一时间，但变量不同的文件，要主要处理好时间保持一致，要是时间不一致必须处理
+cdo merge infile1 infile2 outfile
 
 #提取文件中的某个变量,可以提取多个变量及层次(selxxx,xxx系列命令，与select,xxx=xxx系列代码效果一样)
 cdo select,name=t,u,v infile outfile
@@ -40,6 +42,11 @@ cdo remapbil,var2_grid.txt var.nc var3.nc
 
 #选变量 插值到360*180网格
 cdo remapbil,r360x180 -selvar,sst HadISST_sst.nc sst.nc
+
+#删除某个日期的数据
+cdo delete,date=2016-01-01 infile outfile
+#删除2016-01-01到2016-01-31的数据
+cdo delete,date=2016-01-01,2016-01-31 infile outfile
 
 
 #求气候态
