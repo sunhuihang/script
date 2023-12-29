@@ -843,6 +843,20 @@ class grib_decode_helper:
             all_grb_t.append(datetime.datetime(grb.year,grb.month,grb.day,grb.hour,grb.minute) )
         return xarray.DataArray(np.array(all_grb_v),coords={'lon':lons[0,:],'lat':lats[:,0],'times':all_grb_t},dims=['times','lat','lon'])
 
+#创建 dataarray 和 dataset
+data = np.random.rand(2,3)
+data_vars = {  
+		"var1":(("x", "y"), np.random.rand(2,3)), 
+		"var2":(("x", "y"), np.random.rand(2,3))
+		       },  ## 不同对象坐标对应的属性
+coords = {  
+	  "x":[1,2],  
+	  "y":[1,2,3]  
+		}  
+da = xr.DataArray(data=data,coords=coords)
+ds = xr.Dataset(data_vars = data_vars, coords = coords)
+
+
 #数据输出成nc文件
 
 
