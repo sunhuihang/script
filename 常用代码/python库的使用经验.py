@@ -860,7 +860,7 @@ data = np.random.rand(2,3)
 data_vars = {  
 		"var1":(("x", "y"), np.random.rand(2,3)), 
 		"var2":(("x", "y"), np.random.rand(2,3))
-		       },  ## 不同对象坐标对应的属性
+		       }  ## 不同对象坐标对应的属性
 coords = {  
 	  "x":[1,2],  
 	  "y":[1,2,3]  
