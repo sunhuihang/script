@@ -63,7 +63,19 @@ if '王五' in names:
 ############################## tuple 元组 #################################
 
 
+############################## json ##############################
+json.load()从json文件中读取数据
+json.loads()将str类型的数据转换为dict类型
+json.dumps()将dict类型的数据转成str
+json.dump()将数据以json的数据类型写入文件中
 
+写json
+with open('text.json','w',encoding='utf-8') as f :
+    json.dump('test',f)
+
+读取json
+with open('text.json','r',encoding='utf-8') as f :
+    json.load(f)
 
 ###########################################################################
 
