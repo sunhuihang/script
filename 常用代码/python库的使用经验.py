@@ -135,6 +135,16 @@ df_all = reduce(lambda left,right: pd.merge(left,right,how='inner'),df_list) #�
 
 
 #时间处理
+#np.datetime64计算
+np.timedelta64(1,'D') #timedelta为1天， 'D'为天 'H'为小时 'm'为分钟 's'为分钟
+
+#np.datetime64 与 datetime.datetime互相转换
+dt = datetime.datetime(year=2020, month=6, day=1, hour=20, minute=5, second=30) 
+dt64 = np.datetime64(dt, 's') 
+print(dt64, dt64.dtype) # 2020-06-01T20:05:30 datetime64[s] 
+dt2 = dt64.astype(datetime.datetime) 
+print(dt2, type(dt2)) # 2020-06-01 20:05:30 <class 'datetime.datetime'>
+
 #把np.datetime64、数值或字符串转为timestamp ，即datetime64
 format:
 %Y:四位年份；%y:两位年份 (尽量写4位)
