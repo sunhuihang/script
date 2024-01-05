@@ -310,6 +310,7 @@ rmse = np.sqrt(np.nanmean((x - y)**2))
 import xskillscore as xs
 cc = xs.person_r(a,b,dim='time')
 rmse = xs.rmse(a,b,dim='time')
+rmse = xs.rmse(a,b,dim=['lat','lon'],skipna=True)
 ############################# pickl ######################################
 #读写pkl文件,pickle中可以存储df、数组等多种格式数据
 import pickle
