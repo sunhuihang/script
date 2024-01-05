@@ -823,17 +823,15 @@ for dt in dt_list:              						#循环画图
 
     im_acc = axs[0].imshow(acc)							#两个子图都要画colorbar以及其他复杂操作，必须把ax存下来后面调用
     axs[0].set_title('acc')							#设置子图的标题
-    cbar_acc = plt.colorbar(im_acc, ax=axs[0], orientation='horizontal')	#给im_acc画colorbar，画到axs[0]，horizontal  vertical垂直的
-    cbar_acc.set_label('Correlation Coefficient')
-    axs[0].set_ylabel(f'lead {dt}d')
+    cbar_acc = plt.colorbar(im_acc, ax=axs[0], orientation='horizontal')	#给im_acc画colorbar，画到axs[0]，horizontal水平的  vertical垂直的
+    cbar_acc.set_label('Correlation Coefficient')                               #设置colorbar的标签
+    axs[0].set_ylabel(f'lead {dt}d')					        #设置y轴的标签
 
     im_rmse = axs[1].imshow(rmse)
     axs[1].set_title('rmse')
     cbar_rmse = plt.colorbar(im_rmse, ax=axs[1], orientation='horizontal')
     cbar_rmse.set_label('Root Mean Squared Error')
 
-    # Add y-axis labels
-    axs[0].set_ylabel(f'lead {dt}d')
 ###########################################################################
 
 
