@@ -296,7 +296,7 @@ print("对应的数据形状:", valid_a.shape)
 np.savez('val.npz', dbz=dbz_val, dem=dem_val[:,0,:,:], obs=obs_val)
 f=np.load('val.npz') #list(f) 可以查看f中的keys
 dbz = f['dbz']
-#计算相关系数和rmse
+#计算相关系数和rmse #只能计算2为数据，三维（time,lat,lon）的请看xskillscore
 non_nan_mask = ~np.isnan(y) #先剔除缺测数据
 x = x[non_nan_mask]
 y = y[non_nan_mask]
@@ -305,6 +305,11 @@ rmse = np.sqrt(np.nanmean((x - y)**2))
 
 #计算corr、rmse、mae、线性回归、TS（CSI）
 
+############################ xskillscore #################################
+#计算三维（time,lat,lon）的计算相关系数和rmse ，两个数组必须是xr.DataArray
+import xskillscore as xs
+cc = xs.person_r(a,b,dim='time')
+rmse = xs.rmse(a,b,dim='time')
 ############################# pickl ######################################
 #读写pkl文件,pickle中可以存储df、数组等多种格式数据
 import pickle
@@ -900,15 +905,8 @@ t2m.sel(time=(t2m.time.dt.month.isin([1,2,3]))) #提取1,2,3月的数据
 #选取指定时间、经纬度的数据
 f_SEAS5.t2m.loc['2011-01':'2012-01',28.5:21.8,180:220]
 
-start_date='2017-12-01 00:00:00'
-end_date='2021-02-28 23:00:00'
-levels=500  # 500hPa
-#  选择数据，经纬度，时间，压强
-rain = data['tp'].sel(longitude=(105.0,105.8), latitude=( 23, 22.75),time=slice(start_date, end_date)).loc[dict(level=levels)]
-
-————————————————
-版权声明：本文为CSDN博主「久相处」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/mohenxiang/article/details/126771408
+#查看da或者ds时间有哪些月份
+t2m.time.dt.month
 
 
 ################## netCDF4
