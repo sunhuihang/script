@@ -804,6 +804,36 @@ axs[3].imshow(vil[:,:,frame_idx]), axs[3].set_title('VIL')
 绘制Lambert投影的WRF数据到Lambert
 绘制Lambert投影的WRF数据到PlateCarree
 
+
+
+
+
+
+dt_list = [30,60,90,120,150,180,210]
+# dt_list = [30]
+for dt in dt_list:              						#循环画图
+    x = t2m_SEAS5_anomaly.t2m_a.loc[:,dt]
+    time_obs = t2m_SEAS5_anomaly.time + np.timedelta64(dt,'D')
+    y = t2m_CN_anomaly.t2m_a.loc[time_obs]
+
+    x['time'] = y['time'] #时间对其才可以用xs					
+    fig,axs = plt.subplots(1,2,figsize=(9,4)) 					#创建组图，2个子图
+    acc = xs.pearson_r(x, y,dim='time')
+    rmse = xs.rmse(x, y,dim='time')
+
+    im_acc = axs[0].imshow(acc)							#两个子图都要画colorbar以及其他复杂操作，必须把ax存下来后面调用
+    axs[0].set_title('acc')							#设置子图的标题
+    cbar_acc = plt.colorbar(im_acc, ax=axs[0], orientation='horizontal')	#给im_acc画colorbar，画到axs[0]，horizontal  vertical垂直的
+    cbar_acc.set_label('Correlation Coefficient')
+    axs[0].set_ylabel(f'lead {dt}d')
+
+    im_rmse = axs[1].imshow(rmse)
+    axs[1].set_title('rmse')
+    cbar_rmse = plt.colorbar(im_rmse, ax=axs[1], orientation='horizontal')
+    cbar_rmse.set_label('Root Mean Squared Error')
+
+    # Add y-axis labels
+    axs[0].set_ylabel(f'lead {dt}d')
 ###########################################################################
 
 
