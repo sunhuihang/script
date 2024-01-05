@@ -897,6 +897,20 @@ ds['tm'] = tm_new  #不能用ds.tm = tm_new，这样没改
 t2m_SEAS5.t2m.groupby('time.month').mean('time')  #按月分，然后求平均，就是算的月的气候态（1-12月）
 #选取指定月份的数据
 t2m.sel(time=(t2m.time.dt.month.isin([1,2,3]))) #提取1,2,3月的数据
+#选取指定时间、经纬度的数据
+f_SEAS5.t2m.loc['2011-01':'2012-01',28.5:21.8,180:220]
+
+start_date='2017-12-01 00:00:00'
+end_date='2021-02-28 23:00:00'
+levels=500  # 500hPa
+#  选择数据，经纬度，时间，压强
+rain = data['tp'].sel(longitude=(105.0,105.8), latitude=( 23, 22.75),time=slice(start_date, end_date)).loc[dict(level=levels)]
+
+————————————————
+版权声明：本文为CSDN博主「久相处」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/mohenxiang/article/details/126771408
+
+
 ################## netCDF4
 import netCDF4 as nc
 file = 'test.nc'
