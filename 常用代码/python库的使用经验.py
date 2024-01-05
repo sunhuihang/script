@@ -890,6 +890,13 @@ ds = xr.Dataset(data_vars = data_vars, coords = coords)
 #修改grib中的数据
 
 
+
+#修改xr.DataArray中的数值
+ds['tm'] = tm_new  #不能用ds.tm = tm_new，这样没改
+#按时间分类，计算气候态
+t2m_SEAS5.t2m.groupby('time.month').mean('time')  #按月分，然后求平均，就是算的月的气候态（1-12月）
+#选取指定月份的数据
+t2m.sel(time=(t2m.time.dt.month.isin([1,2,3]))) #提取1,2,3月的数据
 ################## netCDF4
 import netCDF4 as nc
 file = 'test.nc'
