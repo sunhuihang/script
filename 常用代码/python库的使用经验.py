@@ -778,9 +778,10 @@ plt.plot(dt_list, np.nanmean(acc_all,axis=(1,2)), 'ro-', alpha=0.8, linewidth=1,
 -> im_acc = axs[0].plot(dt_list, np.nanmean(acc_all,axis=(1,2)), 'ro-', alpha=0.8, linewidth=1, label='ACC')
 
 plt.legend()  ->  axs[0].legend()   #显示图例label
-plt.xlabel('leadtime(day)')  ->  axs[0].set_xlabel('leadtime(day)')
+plt.xlim(0,3,0.1)  ->  axs[0].set_xlim(0,3,0.1)  #设置x轴显示范围
+plt.xlabel('leadtime(day)')  ->  axs[0].set_xlabel('leadtime(day)') #设置x轴的label
 plt.ylabel('ACC')  ->  axs[0].set_ylabel('ACC')
-plt.title('Shandong')  ->  axs[0].set_title('Shandong')
+plt.title('Shandong')  ->  axs[0].set_title('Shandong') #设置标题
 
 
 #一个二维数组 快速画空间分布图
@@ -805,7 +806,10 @@ axs[3].imshow(vil[:,:,frame_idx]), axs[3].set_title('VIL')
 #保存图片
 plt.savefig('./test.png',bbox_inches='tight'）
 
-#使用中文
+#中英文字体设置
+from mplfonts import use_font
+use_font('SimSun') #中文用Simsun
+
 
 
 创建画布画一张图
