@@ -811,7 +811,9 @@ plt.savefig('./test.png',bbox_inches='tight'）
 #中英文字体设置
 from mplfonts import use_font
 use_font('SimSun') #中文用Simsun
-
+或者
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 设置支持中文
+plt.rcParams['axes.unicode_minus'] = False  # 设置-号
 
 
 创建画布画一张图
