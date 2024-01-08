@@ -769,6 +769,20 @@ dbz_train,dbz_val, obs_train,obs_val = train_test_split(dbz,obs,test_size=0.2, r
 
 
 ############################### matplotlib ####################################
+plt是模块matplotlib.pyplot(基于fig和axes实现的)；
+fig是类matplotlib.figure.Figure的实例；
+ax是类matplotlib.axes.Axes的实例，axs是类Axes实例的集合。
+
+plt快速画图和fig，ax画图的区别
+plt.plot(dt_list, np.nanmean(acc_all,axis=(1,2)), 'ro-', alpha=0.8, linewidth=1, label='ACC')
+-> im_acc = axs[0].plot(dt_list, np.nanmean(acc_all,axis=(1,2)), 'ro-', alpha=0.8, linewidth=1, label='ACC')
+
+plt.legend()  ->  axs[0].legend()   #显示图例label
+plt.xlabel('leadtime(day)')  ->  axs[0].set_xlabel('leadtime(day)')
+plt.ylabel('ACC')  ->  axs[0].set_ylabel('ACC')
+plt.title('Shandong')  ->  axs[0].set_title('Shandong')
+
+
 #一个二维数组 快速画空间分布图
 data = np.random.rand(10, 10)
 plt.imshow(data)
@@ -787,6 +801,12 @@ axs[0].imshow(vis[:,:,frame_idx]), axs[0].set_title('VIS')
 axs[1].imshow(ir069[:,:,frame_idx]), axs[1].set_title('IR 6.9')
 axs[2].imshow(ir107[:,:,frame_idx]), axs[2].set_title('IR 10.7')
 axs[3].imshow(vil[:,:,frame_idx]), axs[3].set_title('VIL')
+
+#保存图片
+plt.savefig('./test.png',bbox_inches='tight'）
+
+#使用中文
+
 
 创建画布画一张图
 创建多子图 循环画图
