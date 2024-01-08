@@ -783,6 +783,8 @@ plt.xlabel('leadtime(day)')  ->  axs[0].set_xlabel('leadtime(day)') #设置x轴�
 plt.ylabel('ACC')  ->  axs[0].set_ylabel('ACC')
 plt.title('Shandong')  ->  axs[0].set_title('Shandong') #设置标题
 
+#快速画折线图
+plt.plot(x轴数据, np.nanmean(acc_all,axis=(1,2)), 'ro-', alpha=0.8, linewidth=1, label='ACC') #'ro-' 为 红色 原点 直线，可以不写
 
 #一个二维数组 快速画空间分布图
 data = np.random.rand(10, 10)
