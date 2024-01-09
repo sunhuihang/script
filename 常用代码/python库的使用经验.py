@@ -139,8 +139,9 @@ df_all = reduce(lambda left,right: pd.merge(left,right,how='inner'),df_list) #�
 np.timedelta64(1,'D') # 1天， 'D'为天 'H'为小时 'm'为分钟 's'为分钟
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
-datetime(2016, 2, 29) + relativedelta(years=1)
-      
+datetime(2016, 2, 29) + relativedelta(months=1)  -> datetime.datetime(2016, 3, 29, 0, 0)   #relativedelta 可以使用 years、months、days、hours等，加's'说明是加减运算
+datetime(2016, 2, 29) + relativedelta(month=1)  -> datetime.datetime(2016, 1, 29, 0, 0)    # 不加's' ，就是直接把对应的时间修改成设置的值
+
 #np.datetime64 与 datetime.datetime互相转换
 dt = datetime.datetime(year=2020, month=6, day=1, hour=20, minute=5, second=30) 
 dt64 = np.datetime64(dt, 's') 
