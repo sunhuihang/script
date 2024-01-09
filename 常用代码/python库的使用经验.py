@@ -135,9 +135,12 @@ df_all = reduce(lambda left,right: pd.merge(left,right,how='inner'),df_list) #�
 
 
 #时间处理
-#np.datetime64计算
-np.timedelta64(1,'D') #timedelta为1天， 'D'为天 'H'为小时 'm'为分钟 's'为分钟
-
+#np.datetime64计算, np.timedelat64 和 dt.timedelta不能处理年和月，要转成datetime 用 relativedelta 
+np.timedelta64(1,'D') # 1天， 'D'为天 'H'为小时 'm'为分钟 's'为分钟
+from dateutil.relativedelta import relativedelta
+from datetime import datetime
+datetime(2016, 2, 29) + relativedelta(years=1)
+      
 #np.datetime64 与 datetime.datetime互相转换
 dt = datetime.datetime(year=2020, month=6, day=1, hour=20, minute=5, second=30) 
 dt64 = np.datetime64(dt, 's') 
@@ -186,7 +189,10 @@ time_str=datetime.strftime(time_datetime,'%Y%m%d%H')
 #timedelta可以对datetime格式数据 进行加减
 #可选项参见 class datetime.timedelta(days=0, seconds=0, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)
 df['date'] = df['date'] + timedelta(hours=6) 
-
+# dt.timedelta 不能处理年和月，用relativedelta
+from dateutil.relativedelta import relativedelta
+from datetime import datetime
+datetime(2016, 2, 29) + relativedelta(years=1)
 
 
 pd.Series
