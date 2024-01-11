@@ -949,7 +949,7 @@ ds = xr.Dataset(data_vars = data_vars, coords = coords)
 
 
 #数据输出成nc文件
-
+ds.to_netcdf('output.nc')
 
 
 #修改nc文件中的数值
