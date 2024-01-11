@@ -39,6 +39,9 @@ cdo -sellevel,25/900 -selname,T infile outfile
 # 将数据var.nc插值到var2.nc的网格上生成数据var3.nc
 cdo griddes var2.nc > var2_grid.txt
 cdo remapbil,var2_grid.txt var.nc var3.nc
+#文件太大内存不足时，使用 --no_remap_weights 运行重新映射。在这种情况下，内存中不会保留任何权重。这显着减少了内存量，但因此需要为每个输入字段重新计算权重。
+cdo --no_remap_weights remapbil,custom_grid infile.nc outfile.nc
+
 
 #选变量 插值到360*180网格
 cdo remapbil,r360x180 -selvar,sst HadISST_sst.nc sst.nc
