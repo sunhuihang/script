@@ -826,12 +826,55 @@ plt.rcParams['axes.unicode_minus'] = False  # 设置-号
 创建画布画一张图
 创建多子图 循环画图
 空间分布图、散点图
+
+#画不填色的等高线图
+	import numpy as np
+	import matplotlib.pyplot as plt
+	x = np.arange(-2.0,2.0,0.01)
+	y = np.arange(-2.0,2.0,0.01)
+	'''meshgrid用于生成三维曲面的分格线座标；产生“格点”矩阵'''
+	X,Y = np.meshgrid(x,y)  # 确定x/y的取值范围
+	'''定义一个函数，用来计算x/y对应的z值'''
+	def f(x,y):
+	    return (1-y**5+x**5)*np.exp(-x**2-y**2)
+	'''contour()函数可生成三维结构表面的等值线图'''
+	C = plt.contour(X,Y,f(X,Y),8,colors='red')
+	'''clabel用于标记等高线'''
+	plt.clabel(C,inline=1,fontsize=10)
+	plt.show()
+
+
 手动设置colorbar的范围
 0值设置为白色
 画经纬度刻度
 双colorbar
-双y轴（左右各一个）
-
+#双y轴（左右各一个） 主要是ax2=ax1.twinx()
+	import numpy as np
+	import matplotlib.pyplot as plt
+	plt.rcParams['font.sans-serif'] = ['SimHei']  # 设置支持中文
+	plt.rcParams['axes.unicode_minus'] = False  # 设置-号
+	x = np.arange(-2.0,2.0,0.01)
+	y1 = np.arange(-2.0,2.0,0.01)
+	'''meshgrid用于生成三维曲面的分格线座标；产生“格点”矩阵'''
+	X,Y = np.meshgrid(x,y1)  # 确定x/y的取值范围
+	'''定义一个函数，用来计算x/y对应的z值'''
+	def f(x,y):
+	    return (1-y**5+x**5)*np.exp(-x**2-y**2)
+	'''contour()函数可生成三维结构表面的等值线图'''
+	fig, ax1 = plt.subplots()  
+	ax2 = ax1.twinx()  
+	line = ax1.contour(X,Y,f(X,Y),8,colors='black')
+	'''clabel用于标记等高线'''
+	plt.clabel(line,inline=1,fontsize=10)
+	
+	y2=x*0.8
+	bar = ax2.bar(x, y2, label='降水',alpha = 0.05, color='gray', width=0.4)   #alpha控制透明度
+	
+	ax1.set_xlabel('经度', fontdict={'size': 16})  
+	ax1.set_ylabel('等高线',fontdict={'size': 16})  
+	ax2.set_ylabel('降水',fontdict={'size': 16}) 
+	plt.show()
+ 
 5.cartopy + matplotlib
 读取shp文件添加地图
 根据经纬度范围绘制
