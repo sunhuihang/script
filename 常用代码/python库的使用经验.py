@@ -817,9 +817,10 @@ plt.savefig('./test.png',bbox_inches='tight'）
 
 #中英文字体设置
 from mplfonts import use_font
-use_font('SimHei') #设置中文用SimHei，建议都使用下面两行
+use_font('SimHei') #设置全局使用中文黑体，建议都使用最下面两行
 或者
-plt.rcParams['font.sans-serif'] = ['SimHei']  # 设置支持中文
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 设置全局为中文黑体
+plt.rcParams['font.family'] = ['Times New Roman','SimHei'] #设置英文字体为 Times New Roman ,中文为黑体 
 plt.rcParams['axes.unicode_minus'] = False  # 设置-号，如果只设置上一行，负号画图会不显示
 
 
