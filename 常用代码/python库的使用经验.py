@@ -1039,10 +1039,17 @@ https://zhuanlan.zhihu.com/p/560132563
 https://mp.weixin.qq.com/s/VaIjmxWu3zrKlkRmv63bIQ
 		
 ##############################其他常用代码及库
+强制一位的数值字符串变成2位数的字符串
+#方法1 使用字符串格式化
+number = 5
+format_number = '%02d' %number #输出就是05
+#方法2 使用zill,把字符串补齐成指定位数
+format_number = str(number).zill(2)  #把‘5’ 补齐为2位数
+      
 #循环
 X = [1,2,3]
 Y = [3,4,5]
-for x,y in zip(X,Y):     # 对X和Y同时循环，效果类似于： for i in range(len(X))
+for x,y in zip(X,Y):     # 对X和Y同时循环(可以超过两个变量，例如x,y,z)，效果类似于： for i in range(len(X))
     test = x + y 				          test = X[i] + Y[i]
 							      
 for i,x in enumerate(X): #循环的同时 也获取索引，i为索引，x为循环值,i常用来作为计数
