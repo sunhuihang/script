@@ -921,6 +921,7 @@ f = Image.open(file_path)
 dbz = np.array(f)
 
 ################################ 多个png 转为gif 动图 ###########################################
+import imageio.v2 as imageio
 def create_gif(source, name, duration):
     """
     生成gif的函数，原始图片仅支持png
@@ -934,6 +935,8 @@ def create_gif(source, name, duration):
     imageio.mimsave(name, frames, 'GIF', duration=duration,loop=0)
     print("处理完成")
 
+png_list = glob('figure/png/*.png')
+create_gif(png_list,f'figure/gif/test.gif',0.5)
 
 
 
