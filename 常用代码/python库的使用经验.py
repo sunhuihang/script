@@ -911,6 +911,21 @@ for dt in dt_list:              						#循环画图
     cbar_rmse = plt.colorbar(im_rmse, ax=axs[1], orientation='horizontal')
     cbar_rmse.set_label('Root Mean Squared Error')
 
+
+
+
+
+
+### dbz常用colorbar
+
+
+### 一小时累计降水常用colorbar
+
+
+
+
+
+
 ###########################################################################
 
 
