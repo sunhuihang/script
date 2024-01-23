@@ -920,8 +920,19 @@ file_path = '/dataset/radar_map_2308/2023_8_11_2300.png'  #img文件也一样
 f = Image.open(file_path)
 dbz = np.array(f)
 
-###########################################################################
-
+################################ 多个png 转为gif 动图 ###########################################
+def create_gif(source, name, duration):
+    """
+    生成gif的函数，原始图片仅支持png
+    source: 为png图片列表（排好序）
+    name ：生成的文件名称
+    duration: 每张图片之间的时间间隔
+    """
+    frames = []   # 读入缓冲区
+    for img in source:
+        frames.append(imageio.imread(img))
+    imageio.mimsave(name, frames, 'GIF', duration=duration,loop=0)
+    print("处理完成")
 
 
 
