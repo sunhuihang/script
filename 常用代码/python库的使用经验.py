@@ -504,6 +504,10 @@ optimizerB.load_state_dict(checkpoint['optimizerB_state_dict'])
 modelA.eval()
 modelB.eval()
 
+# 查看模型输入输出形状
+model = ResUNet_plus(n_channels=11, n_classes = 2)
+import torchinfo
+torchinfo.summary(model, input_size=(3, 11, 512, 512))
 
 
 #5.使用不同模型的参数来预训练模型
