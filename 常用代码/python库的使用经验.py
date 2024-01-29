@@ -662,6 +662,12 @@ net = vgg(conv_arch)
 
 
 
+### 测试dataloader加载速度
+data = MyDataModule(batch_size=64, num_workers=8, data_dir='/home/qixiang/SHARE/us_data', scale_dir=None)
+train_dataloader = data.train_dataloader()
+for i in tqdm(iter(train_dataloader)):
+	pass
+
 #K折教程验证
 def get_k_fold_data(k, i, X, y):
     assert k > 1
