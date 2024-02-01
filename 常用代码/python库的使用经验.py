@@ -1328,7 +1328,7 @@ axel -n 10 https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srt
 #Solving environment: failed with initial frozen solve. Retrying with flexible solve.
 #Solving environment: failed with repodata from current_repodata.json, will retry with next repodata source.
 conda update --all
-
+或者 conda update -n base -c defaults conda
 ######## conda 环境移植
 1.安装 conda-pack
 2.conda pack -j 8 -n wrf -o /mnt/d/work/wrf.tar.gz #用8线程 把名为'wrf'的环境打包到 /mnt/d/work/wrf.tar.gz
