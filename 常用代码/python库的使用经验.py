@@ -310,7 +310,190 @@ y = y[non_nan_mask]
 r = np.corrcoef(x, y)[0,1]
 rmse = np.sqrt(np.nanmean((x - y)**2))
 
-#计算corr、rmse、mae、线性回归、TS（CSI）
+#计算corr、rmse、mae、线性回归
+
+threshold : mm/h  0.1（小雨）10（中雨）25（大雨）50（暴雨）100（特大暴雨）
+#计算 TS(CSI)、ETS、POD、FAR、MAR、BIAS、HSS、BSS、RMSE、MAE
+def prep_clf(obs,pre, threshold=0.1):
+    #根据阈值分类为 0, 1
+    obs = np.where((obs >= threshold), 1, 0)
+    pre = np.where((pre >= threshold), 1, 0)
+    # True positive (TP)
+    hits = np.sum((obs == 1) & (pre == 1))
+    # False negative (FN)
+    misses = np.sum((obs == 1) & (pre == 0))
+    # False positive (FP)
+    falsealarms = np.sum((obs == 0) & (pre == 1))
+    # True negative (TN)
+    correctnegatives = np.sum((obs == 0) & (pre == 0))
+
+    return hits, misses, falsealarms, correctnegatives
+  
+def TS(obs, pre, threshold=0.1):
+    
+    '''
+    TS评分 & CSI
+    TS：风险评分ThreatScore;
+    CSI: critical success index 临界成功指数;
+    两者的物理概念完全一致。
+    func: 计算TS评分: TS = hits/(hits + falsealarms + misses) 
+    	  alias: TP/(TP+FP+FN)
+    '''
+    hits, misses, falsealarms, correctnegatives = prep_clf(obs=obs, pre = pre, threshold=threshold)
+    return hits/(hits + falsealarms + misses) 
+
+def ETS(obs, pre, threshold=0.1):
+    '''
+    公平技巧评分(Equitable Threat Score, ETS)用于衡量对流尺度集合预报的预报效果。ETS评分表示在预报区域内满足某降水阈值的降水预报结果相对于满足同样降水阈值的随机预报的预报技巧；
+    ETS评分是对TS评分的改进，能对空报或漏报进行惩罚，使评分相对后者更加公平
+    Args:
+        obs (numpy.ndarray): observations
+        pre (numpy.ndarray): prediction
+        threshold (float)  : threshold for rainfall values binaryzation
+                             (rain/no rain)
+    Returns:
+        float: ETS value
+    '''
+    hits, misses, falsealarms, correctnegatives = prep_clf(obs=obs, pre = pre,
+                                                           threshold=threshold)
+    num = (hits + falsealarms) * (hits + misses)
+    den = hits + misses + falsealarms + correctnegatives
+    Dr = num / den
+    ETS = (hits - Dr) / (hits + misses + falsealarms - Dr)
+    return ETS
+       
+def POD(obs, pre, threshold=0.1):
+    '''
+    Probability of Detection，POD命中率，即预测出的实际的降水区域占据全部实际降水区域的比重。
+    POD = hits / y_obs_1 = hits / (hits + misses) = 1- MAR
+    func : 计算命中率 hits / (hits + misses)
+    pod - Probability of Detection
+    Args:
+        obs (numpy.ndarray): observations
+        pre (numpy.ndarray): prediction
+        threshold (float)  : threshold for rainfall values binaryzation
+                             (rain/no rain)
+    Returns:
+        float: PDO value
+    '''
+    hits, misses, falsealarms, correctnegatives = prep_clf(obs=obs, pre = pre,
+                                                           threshold=threshold)
+    return hits / (hits + misses)
+
+def FAR(obs, pre, threshold=0.1):
+    '''
+    False Alarm Rate ，空报率FAR，在预报降水区域中实际没有降水的区域占总预报降水区域的比重。
+    FAR = (y_pre_1 - hits)/y_pre_1 = falsealarms / (hits + falsealarms)
+    func: 计算误警率。falsealarms / (hits + falsealarms) 
+    FAR - false alarm rate
+    Args:
+        obs (numpy.ndarray): observations
+        pre (numpy.ndarray): prediction
+        threshold (float)  : threshold for rainfall values binaryzation
+                             (rain/no rain)
+    Returns:
+        float: FAR value
+    '''
+    hits, misses, falsealarms, correctnegatives = prep_clf(obs=obs, pre = pre,
+                                                           threshold=threshold)
+    return falsealarms / (hits + falsealarms)
+
+
+def MAR(obs, pre, threshold=0.1):
+    '''
+    Missing Alarm Rate，漏报率实际降水区域中漏报的区域占据全部实际降水区域的比重。
+    MAR = (y_obs_1 - hits)/y_obs_1 = misses / (hits + misses)			      
+    func : 计算漏报率 misses / (hits + misses)
+    MAR - Missing Alarm Rate
+    Args:
+        obs (numpy.ndarray): observations
+        pre (numpy.ndarray): prediction
+        threshold (float)  : threshold for rainfall values binaryzation
+                             (rain/no rain)
+    Returns:
+        float: MAR value
+    '''
+    hits, misses, falsealarms, correctnegatives = prep_clf(obs=obs, pre = pre,
+                                                           threshold=threshold)
+
+    return misses / (hits + misses)
+
+def BIAS(obs, pre, threshold = 0.1):
+    '''
+    偏差评分(Bias score)主要用来衡量模式对某一量级降水的预报偏差, 该评分在数值上等于预报区域内满足某降水阈值的总格点数与对应实况降水总格点数的比值。用来反映降水总体预报效果的检验方法。
+    Bias = y_pred_1/y_obs_1 = (hits + falsealarms)/(hits + misses)
+    func: 计算Bias评分: Bias =  (hits + falsealarms)/(hits + misses) 
+    	  alias: (TP + FP)/(TP + FN)
+    inputs:
+        obs: 观测值，即真实值；
+        pre: 预测值；
+        threshold: 阈值，判别正负样本的阈值,默认0.1,气象上默认格点 >= 0.1才判定存在降水。
+    returns:
+        dtype: float
+    '''    
+    hits, misses, falsealarms, correctnegatives = prep_clf(obs=obs, pre = pre,
+                                                           threshold=threshold)
+
+    return (hits + falsealarms) / (hits + misses)
+
+				      
+       
+def HSS(obs, pre,threshold=0.1):
+    hits, misses, falsealarms, correctnegatives = prep_clf(obs=obs, pre = pre, threshold=threshold)
+
+    HSS_num = 2 * (hits * correctnegatives - misses * falsealarms)
+    HSS_den = (misses**2 + falsealarms**2 + 2*hits*correctnegatives +
+               (misses + falsealarms)*(hits + correctnegatives))
+
+    return HSS_num / HSS_den
+
+def BSS(obs, pre, threshold=0.1):
+    '''
+    BSS - Brier skill score
+    Args:
+        obs (numpy.ndarray): observations
+        pre (numpy.ndarray): prediction
+        threshold (float)  : threshold for rainfall values binaryzation
+                             (rain/no rain)
+    Returns:
+        float: BSS value
+    '''
+    obs = np.where(obs >= threshold, 1, 0)
+    pre = np.where(pre >= threshold, 1, 0)
+
+    obs = obs.flatten()
+    pre = pre.flatten()
+
+    return np.sqrt(np.mean((obs - pre) ** 2))
+
+def MAE(obs, pre):
+    """
+    Mean absolute error
+    Args:
+        obs (numpy.ndarray): observations
+        pre (numpy.ndarray): prediction
+    Returns:
+        float: mean absolute error between observed and simulated values
+    """
+    obs = pre.flatten()
+    pre = pre.flatten()
+
+    return np.mean(np.abs(pre - obs))
+
+def RMSE(obs, pre):
+    """
+    Root mean squared error
+    Args:
+        obs (numpy.ndarray): observations
+        pre (numpy.ndarray): prediction
+    Returns:
+        float: root mean squared error between observed and simulated values
+    """
+    obs = obs.flatten()
+    pre = pre.flatten()
+
+    return np.sqrt(np.mean((obs - pre) ** 2))
+
 
 ############################ xskillscore #################################
 #计算三维（time,lat,lon）的计算相关系数和rmse ，两个数组必须是xr.DataArray
