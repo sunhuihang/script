@@ -1,8 +1,7 @@
 #yum添加额外的源
 yum install -y epel-release
-yum install dnf #之后用dnf替换yum，可以安装的库更多
 #安装系统用的动态库，要不然报错 libtinfo.so.5: cannot open shared object file
-dnf install ncurses-compat-libs
+yum install libtiff
 
 #yum换源
 cd /etc/yum.repos.d/
