@@ -18,6 +18,8 @@ yum -y update
 conda update -n base -c defaults conda
 
 需要安装的库
-matplotlib cartopy gdal netcdf4 eccodes xarray pandas cfgrib h5py hdf4 hdf5 jupyter onnx pillow(PIL) scipy xesmf scikit-learn scikit-image pytorch-lightning tensorboard tqdm torchinfo einops timm
-
+conda install -c conda-forge matplotlib cartopy gdal netcdf4 eccodes xarray pandas cfgrib h5py hdf4 hdf5 jupyter onnx pillow(PIL) scipy xesmf scikit-learn scikit-image pytorch-lightning tensorboard tqdm torchinfo einops timm pathlib pathlib2
+pynvml tensorbord
+pip install -U 'jsonargparse[signatures]>=4.26.1 #只能pip安装
+pip install apache-airflow[kubernetes]
 pickle是python自带 不用装 ，PIL的库名叫pillow
