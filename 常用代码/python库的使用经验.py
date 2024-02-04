@@ -1022,7 +1022,8 @@ use_font('SimHei') #设置全局使用中文黑体，建议都使用最下面两
 plt.rcParams['font.sans-serif'] = ['SimHei']  # 设置全局为中文黑体
 plt.rcParams['font.family'] = ['Times New Roman','SimHei'] #设置英文字体为 Times New Roman ,中文为黑体 
 plt.rcParams['axes.unicode_minus'] = False  # 设置-号，如果只设置上一行，负号画图会不显示
-
+#添加自己下载的字体
+https://blog.csdn.net/HLBoy_happy/article/details/131667829
 
 创建画布画一张图
 创建多子图 循环画图
