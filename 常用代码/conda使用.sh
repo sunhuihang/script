@@ -23,6 +23,8 @@ pynvml tensorbord imageio
 pip install -U 'jsonargparse[signatures]>=4.26.1 #只能pip安装
 pip install apache-airflow[kubernetes]
 pickle是python自带 不用装 ，PIL的库名叫pillow
+pip install -U mplfonts #中文
+mplfonts init
 
 #克隆一个环境，创建一个B环境，是A的克隆
 conda create -n B --clone A
