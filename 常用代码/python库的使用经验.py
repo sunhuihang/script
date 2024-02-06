@@ -1269,6 +1269,11 @@ https://zhuanlan.zhihu.com/p/560132563
 https://mp.weixin.qq.com/s/VaIjmxWu3zrKlkRmv63bIQ
 		
 ##############################其他常用代码及库
+#手动释放内存垃圾，多用在jupyter中，jupyter不会及时释放内存
+import gc
+gc.collect()
+
+      
 强制一位的数值字符串变成2位数的字符串
 #方法1 使用字符串格式化
 number = 5
