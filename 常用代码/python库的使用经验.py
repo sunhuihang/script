@@ -1174,6 +1174,11 @@ import pandas as pd
 from scipy.interpolate import griddata
 
 
+#安装rioxarray 和 xarray后可以直接读取asc和img文件
+import xarray as xr
+data = xr.open_dataset(f'{dir}/asc/Z_SURF_C_BABJ_P_CMPA_FAST_CHN_0P05_DAY-PRE-2021031520.asc
+
+
  
 #利用pygrib包，从多个grib2文件中提取相应时间和经纬度范围内，并拼接成一整个xarray数组的代码
 import pygrib as pg
