@@ -1269,6 +1269,17 @@ https://zhuanlan.zhihu.com/p/560132563
 https://mp.weixin.qq.com/s/VaIjmxWu3zrKlkRmv63bIQ
 		
 ##############################其他常用代码及库
+#查看内存已用情况
+import psutil
+import os
+
+print('当前进程的内存使用：%.4f GB' % (psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024 / 1024) )
+info = psutil.virtual_memory()
+print( '电脑总内存：%.4f GB' % (info.total / 1024 / 1024 / 1024) )
+print('当前使用的总内存占比：',info.percent)
+print('cpu个数：',psutil.cpu_count())
+
+    
 #手动释放内存垃圾，多用在jupyter中，jupyter不会及时释放内存
 import gc
 gc.collect()
