@@ -33,3 +33,7 @@ conda create -n B --clone A
 
 #使用清华源 下载
 conda install numpy -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+
+
+#根据environment.yml 创建环境
+conda env create -f environment.yml -n newenv
