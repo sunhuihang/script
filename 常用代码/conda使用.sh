@@ -18,12 +18,12 @@ yum -y update
 conda update -n base -c defaults conda
 
 需要安装的库
-conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
-conda install -c conda-forge matplotlib cartopy gdal netcdf4 eccodes xarray rioxarray pandas cfgrib h5py hdf4 hdf5 jupyter onnx pillow(PIL) scipy xesmf scikit-learn scikit-image pytorch-lightning tensorboard tqdm torchinfo einops timm pathlib pathlib2
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia #nvidia 11.4的cuda驱动版本可以装11.8的cuda-pytorch
+conda install -c conda-forge matplotlib cartopy gdal netcdf4 eccodes xarray rioxarray pandas cfgrib h5py hdf4 hdf5 jupyter onnx pillow scipy xesmf scikit-learn scikit-image pytorch-lightning tensorboard tqdm torchinfo einops timm pathlib pathlib2
 pynvml tensorbord imageio 
 pip install -U 'jsonargparse[signatures]>=4.26.1 #只能pip安装
 pip install apache-airflow[kubernetes]
-pickle是python自带 不用装 ，PIL的库名叫pillow
+#pickle是python自带 不用装 ，PIL的库名叫pillow
 pip install -U mplfonts #中文
 mplfonts init
 
