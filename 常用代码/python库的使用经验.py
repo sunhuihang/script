@@ -804,7 +804,13 @@ with torch.no_grad():
 	prep,_,_,_ = model(input) #把np转为tensor进行推理，注意最好写dtype=torch.float32
 	prep = prep.cpu()	#把输出结果从gpu取到cpu中
 
-#怎么并行推理
+#并行推理
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2' #指定使用的多张显卡编号
+num_gpu = torch.cuda.device_count()
+model = torch.nn.DataParallel(model).cuda()  #把模型变成并行的
+dataloader = torch.utils.data.DataLoader(dataset, batch_size=bs_per_gpu * num_gpu, **kwargs)   #把batch_size设置为原始的bs乘以gpu数量，推理时会自动分配给每张卡
+
 
 #模型格式ckpt、pth、oxxn等的区别
 
