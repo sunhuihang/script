@@ -811,6 +811,9 @@ num_gpu = torch.cuda.device_count()
 model = torch.nn.DataParallel(model).cuda()  #把模型变成并行的
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=bs_per_gpu * num_gpu, **kwargs)   #把batch_size设置为原始的bs乘以gpu数量，推理时会自动分配给每张卡
 
+import torch.distributed as dist
+rank = dist.get_rank()
+device = torch.device(f'cuda:{opt.local_rank}')  #推理时 把数据加载到这里
 
 #模型格式ckpt、pth、oxxn等的区别
 
