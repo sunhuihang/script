@@ -1303,8 +1303,8 @@ gc.collect()
 #方法1 使用字符串格式化
 number = 5
 format_number = '%02d' %number #输出就是05
-#方法2 使用zill,把字符串补齐成指定位数
-format_number = str(number).zill(2)  #把‘5’ 补齐为2位数
+#方法2 使用zfill,把字符串补齐成指定位数
+format_number = str(number).zfill(2)  #把‘5’ 补齐为2位数
       
 #循环
 X = [1,2,3]
