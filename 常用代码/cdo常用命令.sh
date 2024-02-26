@@ -1,6 +1,7 @@
 ###
 cdo 不好使的，就试试nco, cdo处理不了的 nco很多情况下可以处理
 nco 作为cdo的补充和后备使用
+cdo 官方教程 https://code.mpimet.mpg.de/projects/cdo/wiki/Tutorial
 ###
 #把其他格式的数据转为 nc格式
 cdo -f nc copy infile outfile.nc
