@@ -1276,6 +1276,13 @@ Dataset.close()
 
     
 ################## xesmf
+import xesmf 如果显示ModuleNotFoundError: No module named 'ESMF'
+1.在bashrc中写入 export ESMFMKFILE=/home/qixiang/anaconda3/envs/sunhh/lib/esmf.mk
+2.在import xesmf前使用
+	    import os
+	    os.environ['ESMFMKFILE'] = '/home/qixiang/anaconda3/envs/sunhh/lib/esmf.mk'
+	    import xesmf
+
 #插值
 https://zhuanlan.zhihu.com/p/560132563
 #wrf的Lambert投影数据插值成站点/等经纬度（相当于2D数组插值到1D数组,即站点或等经纬网格)
