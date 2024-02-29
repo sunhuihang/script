@@ -25,6 +25,8 @@ pip install -U 'jsonargparse[signatures]>=4.26.1' #只能pip安装
 pip install apache-airflow[kubernetes]
 pip install opencv-python
 #pickle是python自带 不用装 ，PIL的安装库名叫pillow, cv2的安装库名为opencv-python
+pip install frykit==0.4.2post1 #用来画中国地图
+pip install py3nvml  #用py3smi 替代 nvidia-smi，即使在docker中都可以显示pid
 pip install -U mplfonts #中文
 mplfonts init
 #安装自己下载的字体
