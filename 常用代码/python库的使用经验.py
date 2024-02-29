@@ -1288,7 +1288,48 @@ https://zhuanlan.zhihu.com/p/560132563
 #wrf的Lambert投影数据插值成站点/等经纬度（相当于2D数组插值到1D数组,即站点或等经纬网格)
 #插值到Lambert或其他二维经纬度网格（相当于2D数组插值到2D数组）
 https://mp.weixin.qq.com/s/VaIjmxWu3zrKlkRmv63bIQ
-		
+
+
+
+################### scipy
+#网格插值到站点
+import numpy as np
+from scipy.interpolate import LinearNDInterpolator
+from scipy.spatial import cKDTree
+
+# 假设您已经有了output, lat, lon, lat_sta, lon_sta
+# 创建一个示例的output数组，这里使用随机数
+output = np.random.rand(5, 20, 20)
+# 创建一个示例的站点经纬度数据，这里使用随机数
+lat_sta = np.random.uniform(0, 10, 10)
+lon_sta = np.random.uniform(0, 10, 10)
+# 创建经纬度网格
+lon, lat = np.meshgrid(lon, lat)
+# 将经纬度网格展平以便于构建 cKDTree
+points = np.column_stack((lat.ravel(), lon.ravel()))
+# 创建一个 cKDTree
+tree = cKDTree(points)
+# 创建一个数组来保存插值结果的索引
+interpolated_values = np.zeros((output.shape[0], len(lat_sta)), dtype=np.float32)
+interpolated_indices = np.zeros((output.shape[0], len(lat_sta)), dtype=np.int32)
+# 遍历时间维度并进行插值
+for t in range(output.shape[0]):    ################## 如果网格和站点是固定的，就不用时间循环了
+    # 获取当前时间步骤下的数据
+    data = output[t].ravel()
+    # 在 cKDTree 上进行查询
+    _, indices = tree.query(np.column_stack((lat_sta, lon_sta)), k=1)
+    # 将查询结果保存到插值索引数组中
+    interpolated_indices[t, :] = indices
+print(interpolated_indices.shape)  # (Time, 10)
+# 创建一个数组来保存插值结果的值
+test = np.zeros((output.shape[0], len(lat_sta)),dtype=np.float32)
+# 遍历时间维度并获取插值值
+for t in range(output.shape[0]):
+    # 根据索引数组提取插值后的值
+    test[t, :] = output[t].ravel()[interpolated_indices[t, :]]
+
+print(test.shape)  # (Time, 10)
+
 ##############################其他常用代码及库
 #查看内存已用情况
 import psutil
