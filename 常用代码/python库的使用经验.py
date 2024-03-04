@@ -1100,25 +1100,20 @@ colorbar = plt.colorbar(contour, ax=ax)
     from matplotlib.colors import Normalize
     from matplotlib.cm import ScalarMappable
     # 创建一个离散颜色映射
-    thresholds = [0,0.1, 1.6, 7, 15, 30]
-    colors = ['white','lightblue', 'blue', 'darkblue', 'purple', 'black']
-    # 创建一个离散颜色映射
+    thresholds = [0.1, 1.6, 7, 15, 30]
+    colors = ['lightgreen','blue', 'darkblue', 'purple', 'black']
     cmap_discrete = plt.cm.colors.ListedColormap(colors)
 
     # 创建一个 BoundaryNorm 实例，将颜色条分成均匀间隔的部分
     norm = BoundaryNorm(thresholds, len(thresholds) - 1)
-    # ax.scatter(lon_sta, lat_sta,s=pre_1h*10, c=pre_1h, cmap=cmap_discrete, alpha=0.85, edgecolors='k', linewidths=0.7)
-    s=deepcopy(pre_1h)
-    s[:] = 20
-    s[pre_1h > 0.1] = s[pre_1h > 0.1]*2
-    ax.scatter(lon_sta, lat_sta,s=s, c=pre_1h, cmap=cmap_discrete, alpha=0.9, edgecolors='k', linewidths=0.7)
 
-    # 创建 ScalarMappable 对象
-    sm = ScalarMappable(cmap=cmap_discrete, norm=norm)
-    sm.set_array([])
-    cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=0.1, shrink=0.8,extend='max')
-    # cbar.set_label('站点降水量')
-    cbar.ax.set_yticklabels(['无雨','小雨', '中雨', '大雨', '暴雨', '特大暴雨'])  # 设置颜色条标签
+
+    # ax.scatter(lon_sta, lat_sta,s=pre_1h*10, c=pre_1h, cmap=cmap_discrete, alpha=0.85, edgecolors='k', linewidths=0.7)
+    s=np.zeros_like(pre_1h)
+    s[pre_1h>=0.1] = 40
+    scatter=ax.scatter(lon_sta, lat_sta,s=s, c=pre_1h, cmap=cmap_discrete, alpha=0.9, edgecolors='k', linewidths=0.7,norm=norm)
+    cbar = plt.colorbar(scatter, ax=ax, orientation='vertical', pad=0.1, shrink=0.8,extend='max')
+    # cbar.ax.set_yticklabels(['无雨','小雨', '中雨', '大雨', '暴雨', '特大暴雨'])  # 设置颜色条标签
     cbar.ax.set_xlabel('  pre mm/1h', fontsize=10, labelpad=10)
 
 	
