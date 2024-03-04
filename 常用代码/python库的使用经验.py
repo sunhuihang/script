@@ -1073,6 +1073,7 @@ cols = [(255,255,255),(102,255,255),(86,225,250),(0,162,232),(3,207,14),\
 cols = [(r/255, g/255, b/255) for r, g, b in cols]
 
 # 创建Colormap
+from matplotlib.colors import ListedColormap
 cmap = ListedColormap(cols)
 map_crs = ccrs.PlateCarree()
 
