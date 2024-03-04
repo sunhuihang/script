@@ -1055,7 +1055,37 @@ https://blog.csdn.net/HLBoy_happy/article/details/131667829
 	plt.show()
 
 
-手动设置colorbar的范围
+########################手动设置colorbar的范围
+		#手动指定雷达回波 colorbar 
+import frykit.plot as fplt
+from copy import deepcopy
+import cartopy.crs as ccrs
+from cartopy.mpl.gridliner import LONGITUDE_FORMATTER,LATITUDE_FORMATTER
+
+
+# 定义颜色列表
+levs = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75]
+cols = [(255,255,255),(102,255,255),(86,225,250),(0,162,232),(3,207,14),\
+    (26,152,7),(255,242,0),(217,172,113),(255,147,74),(255,0,0),\
+    (204,0,0),(155,0,0),(236,21,236),(130,11,130),(184,108,208)]
+
+# 将颜色值转换为范围从0到1的浮点数
+cols = [(r/255, g/255, b/255) for r, g, b in cols]
+
+# 创建Colormap
+cmap = ListedColormap(cols)
+map_crs = ccrs.PlateCarree()
+
+fig = plt.figure(figsize=(15,10))
+ax = fig.add_axes([0.6,0.44,0.6,0.3],projection=map_crs)
+contour = ax.contourf(lon,lat,dbz[0,:,:],cmap=cmap,levels=levs,extend='max')
+colorbar = plt.colorbar(contour, ax=ax)
+
+
+
+	
+
+	
 0值设置为白色
 画经纬度刻度
 双colorbar
