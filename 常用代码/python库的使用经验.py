@@ -1350,8 +1350,35 @@ https://zhuanlan.zhihu.com/p/560132563
 #插值到Lambert或其他二维经纬度网格（相当于2D数组插值到2D数组）
 https://mp.weixin.qq.com/s/VaIjmxWu3zrKlkRmv63bIQ
 
+########## 插值到 另一个曲线网格nc文件的网格上
 
+#要处理的数据，写成ds
+data_vars = {  
+	"pre":(("time","lat", "lon"),output )
+	       }  
+coords = {  
+      "time":time_list,
+	  "lat":lat[:,0],  
+	  "lon":lon[0,:] 
+		}  
+ds = xr.Dataset(data_vars = data_vars, coords = coords)
 
+#另一个nc的曲线网格
+f=xr.open_dataset('/home/qixiang/sunhh/test/1km网格.nc')
+coords = {  
+      "lat":(("x","y"),f.lat_d04.values),    #要写成lat lon的名称，插值才能识别
+      "lon":(("x","y"),f.lon_d04.values),
+		}  
+ds_out = xr.Dataset( coords = coords) #只用写coords
+#计算插值文件 并保存
+regridder = xe.Regridder(ds_in = ds, ds_out = ds_out, method = "bilinear",periodic=True)
+regridder.to_netcdf('./china_1km_regridder.nc')
+# 读取保存的插值文件 重复使用
+regridder = xe.Regridder(ds_in = ds, ds_out = ds_out, method = "bilinear",periodic=True,reuse_weights=True,filename='./china_1km_regridder.nc')
+#插值
+ds_intepolate = regridder(ds)
+ds_intepolate = regridder(ds)
+###################
 ################### scipy
 #网格插值到站点
 import numpy as np
@@ -1392,6 +1419,11 @@ for t in range(output.shape[0]):
 print(test.shape)  # (Time, 10)
 
 ##############################其他常用代码及库
+##geopandas 配合 salem 读取地图shp文件，然后对数据进行mask
+shp = geopandas.read_file('province_9south.shp')
+t = temp.salem.roi(shape=shp)
+
+
 #查看内存已用情况
 import psutil
 import os
