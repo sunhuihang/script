@@ -1237,51 +1237,18 @@ f=xr.open_dataset('test.nc')
 import os
 os.environ['ECCODES_DEFINITION_PATH']='/home/qixiang/SHARE/anaconda3/envs/sunhh_usual/share/eccodes/definitions/'
 import xarray as xr
-import pygrib
-import datetime
-import numpy as np
-import pandas as pd
-from scipy.interpolate import griddata
+from glob import glob
+file = sorted(glob('/mnt/glusterfs/qixiang/zoubo/pre/2023/202305/20230501/*GRB2'))
+data = xr.open_dataset(file[0],engine='cfgrib')
 
-
+      
 #安装rioxarray 和 xarray后可以直接读取asc和img文件
 import xarray as xr
-data = xr.open_dataset(f'{dir}/asc/Z_SURF_C_BABJ_P_CMPA_FAST_CHN_0P05_DAY-PRE-2021031520.asc
+data = xr.open_dataset(f'{dir}/asc/Z_SURF_C_BABJ_P_CMPA_FAST_CHN_0P05_DAY-PRE-2021031520.asc)
 
 
  
-#利用pygrib包，从多个grib2文件中提取相应时间和经纬度范围内，并拼接成一整个xarray数组的代码
-import pygrib as pg
-import xarray
-import numpy as np
-import datetime
 
-class grib_decode_helper:
-    def __init__(self,grib_paths,lons,lats):
-        self.paths = grib_paths
-        self.lons = lons
-        self.lats = lats
-
-    def get_element_xarray(self,**args):
-        all_grb_v = list()
-        all_grb_t = list()
-        lat1 = float(min(self.lats))
-        lat2 = float(max(self.lats))
-        lon1 = float(min(self.lons))
-        lon2 = float(max(self.lons))
-        index = 0
-        for p in self.paths:
-            index = index+1
-            grbs = pg.open(p)
-            grb = grbs.select(**args)[0]
-            if self.lats is None:
-                all_grb_v.append(grb.values)
-                lats,lons = grb.latlons()
-            else:
-                data, lats, lons = grb.data(lat1=lat1,lat2=lat2,lon1=lon1,lon2=lon2)
-                all_grb_v.append(data)
-            all_grb_t.append(datetime.datetime(grb.year,grb.month,grb.day,grb.hour,grb.minute) )
-        return xarray.DataArray(np.array(all_grb_v),coords={'lon':lons[0,:],'lat':lats[:,0],'times':all_grb_t},dims=['times','lat','lon'])
 
 #创建 dataarray 和 dataset
 data = np.random.rand(2,3)
