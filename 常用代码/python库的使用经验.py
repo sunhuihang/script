@@ -1419,6 +1419,40 @@ for t in range(output.shape[0]):
 print(test.shape)  # (Time, 10)
 
 ##############################其他常用代码及库
+#生成tiff
+import pyproj
+data = ds_interploate
+lon2d, lat2d = data.lat.data, data.lon.data
+lon, lat = lon2d[0, :], lat2d[:, 0]
+
+transformer = pyproj.Transformer.from_crs('4326', '3857')
+
+_, y = transformer.transform(lat, [lon[0] for _ in range(len(lat)) ])
+x, _ = transformer.transform([ lat[0] for _ in range(len(lon)) ], lon)
+x = np.array(x)
+y = np.array(y)
+
+start_time_str = start_time.strftime("%Y%m%d%H%M")
+for i in range(data.pre.shape[0]):
+t_out = start_time + dt.timedelta(minutes=(i+1)*6)
+t_out_str = t_out.strftime("%Y%m%d%H%M")
+# output_file = f'{output_dir}/{str((i+1)*6).zfill(3)}.tif'
+output_file = f'{output_dir}/Short_Pre_{start_time_str}_{t_out_str}.tiff'
+tmpdata = xr.Dataset({
+		    f'data': (('y', 'x'), data.pre.isel(time=i).data),
+		    # f'data': (('y', 'x'), (data.pre.isel(time=i).data *10).astype(np.int16)),
+		    },
+		    coords = dict(y = y, x = x)).rio.write_crs(3857)
+
+tmpdata.rio.to_raster(f"{output_file}")
+
+#读取tiff
+import rioxarray as rxr
+file = 'Forecast_0901_2022-09-01-12.tiff'
+data = rxr.open_rasterio(file)
+
+
+      
 ##geopandas 配合 salem 读取地图shp文件，然后对数据进行mask
 shp = geopandas.read_file('province_9south.shp')
 t = temp.salem.roi(shape=shp)
