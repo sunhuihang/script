@@ -1154,6 +1154,14 @@ colorbar = plt.colorbar(contour, ax=ax)
 绘制Lambert投影的WRF数据到Lambert
 绘制Lambert投影的WRF数据到PlateCarree
 
+#
+# 竖版中国标准地图的投影.
+# http://gi.m.mnr.gov.cn/202103/t20210312_2617069.html
+map_crs = ccrs.AzimuthalEquidistant(central_longitude=105, central_latitude=35)
+data_crs = ccrs.PlateCarree()  #4326就是PlateCarree圆柱投影
+# data_crs = epsg(3857) #EPSG:3857 (Pseudo-Mercator). 伪墨卡托投影，也被称为球体墨卡托，Web Mercator。它是基于墨卡托投影的，把WGS84坐标系投影到正方形。
+    # 3857画不出来图，要转回4326再画
+# data_crs = ccrs.Mercator.GOOGLE #Mercator.GOOGLE 跟EPSG3857就是同一个 
 
 
 
