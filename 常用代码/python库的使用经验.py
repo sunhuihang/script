@@ -1394,6 +1394,23 @@ for t in range(output.shape[0]):
 print(test.shape)  # (Time, 10)
 
 ##############################其他常用代码及库
+# uv风 与风速风向 相互转化
+import numpy as np
+deg = 180.0/np.pi
+rad = np.pi/180.0
+# wspd, wdir to u, v
+wspd = 20
+wdir = 30.0
+u = -wspd*np.sin(wdir*rad)
+v = -wspd*np.cos(wdir*rad)
+print('wspd =',wspd, ' wdir =',wdir, ' u =',u, ' v =',v)
+# u, v to wspd, wdir
+wspd = np.sqrt(u**2+v**2)
+wdir =  180.0 + np.arctan2(u, v)*deg
+print('u =',u,' v =',v, ' wspd =',wspd, ' wdir =',wdir)
+
+
+     
 #生成tiff
 import pyproj
 data = ds_interploate
