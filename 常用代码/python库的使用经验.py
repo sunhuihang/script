@@ -1146,7 +1146,38 @@ colorbar = plt.colorbar(contour, ax=ax)
 	ax1.set_ylabel('等高线',fontdict={'size': 16})  
 	ax2.set_ylabel('降水',fontdict={'size': 16}) 
 	plt.show()
- 
+
+
+#自定义colorbar 看这个，可以取几个颜色后，生成一个连续的colorbar
+    https://stackoverflow.com/questions/26108436/how-can-i-get-the-matplotlib-rgb-color-given-the-colormap-name-boundrynorm-an
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import matplotlib.colors as mcolors
+
+def show_cmap(cmap, norm=None, extend=None):
+    '''展示一个colormap.'''
+    if norm is None:
+        norm = mcolors.Normalize(vmin=0, vmax=cmap.N)
+    im = cm.ScalarMappable(norm=norm, cmap=cmap)
+
+    fig, ax = plt.subplots(figsize=(6, 1))
+    fig.subplots_adjust(bottom=0.5)
+    fig.colorbar(im, cax=ax, orientation='horizontal', extend=extend)
+    plt.show()
+ListedColormap(colors, name='from_list', N=None)
+colors = ['white', 'darkgreen','lawngreen','gold','darkorange','red','darkred']
+cmap = mcolors.ListedColormap(colors)
+show_cmap(cmap)
+cmap1 = mcolors.LinearSegmentedColormap.from_list('cmap1', colors,N=41, gamma=1.0)
+show_cmap(cmap1)
+colors_list = []
+for i in range(cmap1.N):
+    colors_list.append(cmap1(i)[:3])
+colors_list    	                              #转成RGB的列表
+
+
+    
 5.cartopy + matplotlib
 读取shp文件添加地图
 根据经纬度范围绘制
