@@ -1149,7 +1149,7 @@ colorbar = plt.colorbar(contour, ax=ax)
 
 
 #自定义colorbar 看这个，可以取几个颜色后，生成一个连续的colorbar
-    https://stackoverflow.com/questions/26108436/how-can-i-get-the-matplotlib-rgb-color-given-the-colormap-name-boundrynorm-an
+    https://zhajiman.github.io/post/matplotlib_colormap/
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
