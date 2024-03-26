@@ -1469,11 +1469,18 @@ tmpdata = xr.Dataset({
 
 tmpdata.rio.to_raster(f"{output_file}")
 
-#读取tiff
+#读取tiff 并从3857投影转为4326 获取latlon
 import rioxarray as rxr
-file = 'Forecast_0901_2022-09-01-12.tiff'
+file = 'Short_Precip_202403070800_202403070806.tiff'
 data = rxr.open_rasterio(file)
-
+lat = data.y.values
+lon = data.x.values
+import pyproj
+transformer = pyproj.Transformer.from_crs('3857','4326',always_xy=True)
+_, y = transformer.transform([lon[0] for _ in range(len(lat))],lat)
+x, _ = transformer.transform(lon,[lat[0] for _ in range(len(lon))])
+lon = np.array(x)
+lat = np.array(y)
 
       
 ##geopandas 配合 salem 读取地图shp文件，然后对数据进行mask
