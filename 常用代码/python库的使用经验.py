@@ -1554,6 +1554,14 @@ for var_name in dir():
         print("{}{: >25}{}{: >10}{}".format('|',var_name,'|',sys.getsizeof(eval(var_name)),'|'))
 
 
+
+#读取zip中的文件
+import zipfile
+zip_path = 'Short_Precip_202312051000.zip'
+with zipfile.ZipFile(zip_path, 'r') as zf:
+	file_list = zf.namelist()
+file_list
+
 ### 多线程下载,默认支持断点续传
 可以用conda、ubantu(sudo apt install)、centos(yum install)安装，在命令行使用
 axel -n 10 https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_12_03.zip
