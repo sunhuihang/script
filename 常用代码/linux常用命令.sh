@@ -11,6 +11,10 @@ tar xvf xx.tar -C ../dir #解压到dir文件夹
 
 #解压zip
 unzip -o xx.zip -d dir #-o覆盖重名文件,-d指定解压dir目录下
+#把文件夹压缩为zip
+zip -r output.zip /path/to/directory
+把指定文件压缩为zip
+zip output.zip /path/to/file
 
 #跨服务器传输，sshpass -p pwd123 是免互动输入密码
 sshpass -p pwd123 scp -r qixiang@192.168.0.18:/home/qixiang/SHARE/us_data .
