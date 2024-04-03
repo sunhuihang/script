@@ -527,7 +527,7 @@ with open("./scaler_256.pkl", "rb") as f:
     dem_std = pkl["dem_std"]
 
 
-################################## torch ##################################
+################################## pytorch ##################################
 #相关的加载
 import torch
 from torch import nn
@@ -616,6 +616,11 @@ z = x.cuda(2)
 model = model.to(device=torch.device('cuda:1'))
 x = x.to(device=torch.device('cuda:1'))
 out = model(x)
+
+
+#pytorch 插值
+import torch.nn.functional as F
+x = F.interpolate(x,size=target_size,mode='bilinear',align_corners=False)
 
 
 #怎么把数据转成dataset，再转成dataloader 供模型使用
