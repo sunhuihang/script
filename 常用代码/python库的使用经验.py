@@ -622,7 +622,7 @@ out = model(x)
 import torch.nn.functional as F
 x = torch.randn(1,3,512,512)
 target_size = (256,256)
-x = F.interpolate(x,size=target_size,mode='bilinear',align_corners=False)
+x = F.interpolate(x,size=target_size,mode='bilinear')
 
 
 #怎么把数据转成dataset，再转成dataloader 供模型使用
