@@ -620,6 +620,8 @@ out = model(x)
 
 #pytorch 插值
 import torch.nn.functional as F
+x = torch.randn(1,3,512,512)
+target_size = (256,256)
 x = F.interpolate(x,size=target_size,mode='bilinear',align_corners=False)
 
 
