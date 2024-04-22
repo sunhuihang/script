@@ -1574,9 +1574,11 @@ file_list
 
 
 # 禁止显示所有 DeprecationWarning
+import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
 # 或者只禁止特定的 DeprecationWarning
+import warnings
 warnings.filterwarnings("ignore", message=r"set_extent_and_ticks is deprecated, use set_map_ticks instead", category=DeprecationWarning)
 	
 ### 多线程下载,默认支持断点续传
