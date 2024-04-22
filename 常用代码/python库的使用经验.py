@@ -1570,6 +1570,15 @@ with zipfile.ZipFile(zip_path, 'r') as zf:
 	file_list = zf.namelist()
 file_list
 
+
+
+
+# 禁止显示所有 DeprecationWarning
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
+
+# 或者只禁止特定的 DeprecationWarning
+warnings.filterwarnings("ignore", message=r"set_extent_and_ticks is deprecated, use set_map_ticks instead", category=DeprecationWarning)
+	
 ### 多线程下载,默认支持断点续传
 可以用conda、ubantu(sudo apt install)、centos(yum install)安装，在命令行使用
 axel -n 10 https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_12_03.zip
