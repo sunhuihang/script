@@ -40,3 +40,31 @@ conda install numpy -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
 
 #根据environment.yml 创建环境
 conda env create -f environment.yml -n newenv
+
+
+
+1.安装 conda-pack
+2.conda pack -j 8 -n wrf -o /mnt/d/work/wrf.tar.gz #用8线程 把名为'wrf'的环境打包到 /mnt/d/work/wrf.tar.gz
+3.把wrf.tar.gz 拷贝解压到新环境的anaconda3/envs/wrf 下,即可
+
+
+#conda 环境克隆
+conda create -n B --clone A #生成一个B环境，为A的克隆
+#移除环境
+conda env remove -n nowcast_test
+######## 在离线环境中，多安装一个库
+1.在有网络的环境中，新建一个文件夹new，并进入
+2.pip download scikit-image -d ./  #把库及需求的依赖库下载到当前目录
+3.sshpass -p sh123456 scp -P 10030 ./* Atmos@124.128.14.90:/data/Atmos/sunhh/cycling/run/download #把刚才下载的文件 全部拷贝到new中
+4.在离线环境中，进入new文件夹 pip install scikit-image --no-index -f ./  安装完毕
+
+######## 安装xesmf和esmpy（esmpy是xesmf的库，且二者必须从同一个源安装） 
+1.~/.condarc中不能同时存在 default和 conda-forge，删除default后，用conda install xesmf=0.7.1 -c conda-forge 安装
+
+######## 移植带有esmpy的库，要修改esmf.mk 中的路径
+1.vim anaconda3/envs/环境名/lib/esmf.mk 
+
+######## 解决jupyter 无环境问题
+conda install ipykernel
+python -m ipykernel install --user --name sunhh  #把sunhh环境加入可选项
+###########################################################################
