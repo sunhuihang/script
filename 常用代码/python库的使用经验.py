@@ -983,6 +983,9 @@ x = torch.rand(size=(1,1,28,28),dtype=torch.float32)
 
 
 #分块运行模型 ，例如全国范围形状为（2000,3500），而模型只能接受（256,256）或过大尺寸的输入显存不足
+import torch
+from torch import nn 
+from torch.utils.data import Dataset, DataLoader
 def get_unfold(x, kernel_size, overlap,):
     '''
         input: x: (N, C, H, W)
