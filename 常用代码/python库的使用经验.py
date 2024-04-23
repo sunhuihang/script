@@ -980,6 +980,60 @@ x = torch.rand(size=(1,1,28,28),dtype=torch.float32)
       x = layer(x)
       print(layer.__class__.__name__, 'output shape: \t', x.shape)
 
+
+
+#分块运行模型 ，例如全国范围形状为（2000,3500），而模型只能接受（256,256）或过大尺寸的输入显存不足
+def get_unfold(x, kernel_size, overlap,):
+    '''
+        input: x: (N, C, H, W)
+        output: x (N, L, C, kernel_size, kernel_size)
+    '''
+    if not isinstance(x, torch.Tensor):
+        x = to_torch(x)
+    bs, nc, h, w = x.shape
+	 
+    stride = kernel_size-overlap
+    padding_h = kernel_size - (h - kernel_size ) % stride
+    padding_w = kernel_size - (w - kernel_size ) % stride
+    # padding_h =  (h - kernel_size ) % stride
+    # padding_w =  (w - kernel_size ) % stride
+    pad = nn.ReplicationPad2d(padding=(0, padding_w, 0, padding_h))
+    x_pad = pad(x)
+    fold_params = dict(kernel_size=kernel_size, dilation=1, padding=0, stride=stride)
+    unfold = torch.nn.Unfold(**fold_params)
+    fold = torch.nn.Fold(output_size=(h+padding_h, w+padding_w),**fold_params)
+
+    Ly = (h + padding_h - fold_params['kernel_size']) // fold_params['stride'] + 1
+    Lx = (w + padding_w - fold_params['kernel_size']) // fold_params['stride'] + 1
+    x_patches = unfold(x_pad).reshape((bs, nc, kernel_size, kernel_size, Ly*Lx))
+    x_patches = x_patches.permute(0,4, 1,2,3)
+
+    weighting =  get_weighting(kernel_size, kernel_size, Ly, Lx, x.device).to(x.dtype)
+    normalization = fold(weighting).view(1, 1, h+padding_h, w+padding_w)  # normalizes the overlap
+    weighting = weighting.view((1, 1, kernel_size, kernel_size, Ly * Lx))
+    return x_patches,fold, normalization, weighting
+	 
+w, h =  inputs.shape[-2:]
+x_patches, fold, normalization, weighting = get_unfold(inputs[None], kernel_size=256, overlap=64)
+x_patches = x_patches.squeeze()
+
+data = DataLoader(TensorDataset(x_patches), batch_size=batch_size)
+tmp_qpe = torch.cat([model(batch[0]) for batch in tqdm(data)])
+print(tmp_qpe.shape,'1')
+tmp_qpe = rearrange(tmp_qpe, 'l b h w -> b h w l')
+print(tmp_qpe.shape,'2')
+
+tmp_qpe = tmp_qpe * weighting
+print(tmp_qpe.shape,'3')
+
+tmp_qpe = rearrange(tmp_qpe, '1 b h w l -> b (h w) l')
+print(tmp_qpe.shape,'4')
+
+tmp_qpe = fold(tmp_qpe) / normalization
+print(tmp_qpe.shape,'5')
+
+tmp_qpe = tmp_qpe[..., :w, :h]
+print(tmp_qpe.shape,'6')
 ###########################################################################
 
 ############################## sklearn ######################################
