@@ -1422,12 +1422,15 @@ for dt in dt_list:              						#循环画图
 ###########################################################################
 
 
-############################### 读取png、img文件，转成numpy数组 ####################################
+############################### 读写png、img文件，转成numpy数组 ####################################
 from PIL import Image
 file_path = '/dataset/radar_map_2308/2023_8_11_2300.png'  #img文件也一样
 f = Image.open(file_path)
 dbz = np.array(f)
 
+#写png
+import imageio
+imageio.imsave(f'dbz.png', dbz)
 ################################ 多个png 转为gif 动图 ###########################################
 import imageio.v2 as imageio
 def create_gif(source, name, fps):
