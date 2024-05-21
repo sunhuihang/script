@@ -1958,7 +1958,7 @@ from torch import nn
 from torch.utils.data import Dataset, DataLoader, TensorDataset
 from tqdm import tqdm
 from einops import rearrange
-from utils import *
+from infer_utils import *
 
 
 inputs = dbz
