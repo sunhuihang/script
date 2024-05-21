@@ -1939,3 +1939,46 @@ def sel_sample(dbz_all,obs_all,dem_all,a=1):
 
     print('output shape: ',dbz_sel.shape,obs_sel.shape,dem_sel.shape)
     return dbz_sel,obs_sel,dem_sel
+
+
+
+
+#############################################################################################################################
+# 加载模型进行推理
+from model.simvp_2 import SimVP_model
+import torch
+device = "cuda"
+model = SimVP_model(in_shape=[10,1],C_out=1)
+model.eval()
+model.to(device)
+inputs = torch.randn(1,10,1,2000,3400).to(device)
+output = model(inputs)
+#若显存不足 要分块运行
+from torch import nn 
+from torch.utils.data import Dataset, DataLoader, TensorDataset
+from tqdm import tqdm
+from einops import rearrange
+from utils import *
+
+
+inputs = dbz
+with torch.no_grad():
+w, h =  inputs.shape[-2:]
+x_patches, fold, normalization, weighting = get_unfold(inputs[None], kernel_size=256, overlap=64)
+x_patches = x_patches.squeeze()
+data = DataLoader(TensorDataset(x_patches), batch_size=16)
+# for batch in tqdm(data):
+#     print(batch[0].shape)	#这段代码先来查看batch的形状，然后下面batch[0][:,:,None]按照需求 自行弄成需要的形状
+# return
+
+tmp_qpe = torch.cat([model(batch[0][:,:,None]) for batch in tqdm(data)]).squeeze()
+tmp_qpe = rearrange(tmp_qpe, 'l b h w -> b h w l')
+tmp_qpe = tmp_qpe * weighting
+tmp_qpe = rearrange(tmp_qpe, '1 b h w l -> b (h w) l')
+tmp_qpe = fold(tmp_qpe) / normalization
+tmp_qpe = tmp_qpe[..., :w, :h]
+
+##若dbz的原始形状 不适配模型结构，先填充dbz，然后再去掉
+dbz = torch.nn.functional.pad(dbz, (25, 25, 25, 25), value=float(-0.5)) #这里使用-0.5，也就是归一化前为0的
+。。。。。。
+output = tmp_qpe[...,25:-25,25:-25].squeeze()
