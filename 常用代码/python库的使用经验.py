@@ -1750,8 +1750,9 @@ with zipfile.ZipFile(zip_path, 'r') as zf:
 file_list
 
 
-
-
+#禁止显示所有 Warning
+import warnings
+warnings.filterwarnings("ignore")
 # 禁止显示所有 DeprecationWarning
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
