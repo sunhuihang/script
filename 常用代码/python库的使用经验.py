@@ -1039,6 +1039,15 @@ tmp_qpe = tmp_qpe[..., :w, :h]
 print(tmp_qpe.shape,'6')
 ###########################################################################
 
+
+############################## pytorch lightning ######################################
+#在每个epoch结束 进行动作 ,类似的还有epoch_start，batch_start,batch_end ,train也有对应的 例如#on_train_epoch_end
+def on_validation_epoch_end(self):   
+    # 只在主进程中输出 self.w_map
+    if self.trainer.is_global_zero:
+        print(f"Current w_map: {self.w_map.detach().cpu().numpy()}")
+###########################################################################
+
 ############################## sklearn ######################################
 #把数据按比例划 随机 分成训练集验证集（也可以是测试集，纯看怎么使用）
 from sklearn.model_selection import train_test_split
