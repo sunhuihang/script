@@ -148,7 +148,11 @@ dt64 = np.datetime64(dt, 's')
 print(dt64, dt64.dtype) # 2020-06-01T20:05:30 datetime64[s] 
 dt2 = dt64.astype(datetime.datetime) 
 print(dt2, type(dt2)) # 2020-06-01 20:05:30 <class 'datetime.datetime'>
-
+当 dt的单位为 [ns]的时候，要先转为[s]
+a=np.array('2024-05-31T22:00:00.000000000', dtype='datetime64[ns]')
+a = a.astype('datetime64[s]')
+b = a.astype(datetime.datetime)
+  
 #把np.datetime64、数值或字符串转为timestamp ，即datetime64
 format:
 %Y:四位年份；%y:两位年份 (尽量写4位)
