@@ -529,8 +529,11 @@ with open("./scaler_256.pkl", "rb") as f:
     dbz_std = pkl["std"]
     dem_mean = pkl["dem_mean"]
     dem_std = pkl["dem_std"]
-
-
+############################# yaml ######################################
+#读取config.yaml中的参数 转为字典
+cfg = '/home/qixiang/sunhh/CasCast/output/training_options.yaml'
+with open(cfg, 'r') as cfg_file:
+    cfg_params = yaml.load(cfg_file, Loader = yaml.FullLoader)
 ################################## pytorch ##################################
 #相关的加载
 import torch
