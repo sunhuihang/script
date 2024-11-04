@@ -1865,10 +1865,45 @@ gdalwarp -t_srs "+proj=longlat +datum=WGS84 +no_defs" -co "FORMAT=NC4" out.tif d
 
 
 
+########################################## 以下编码部分 仍需学习 修改
+########################### 位置编码
+def get_geo_data(rad_lon,rad_lat,t):
+    lon,lat = np.meshgrid(rad_lon,rad_lat)
+    t =  t-pd.Timedelta(hours=8)
+    geo_data = np.stack([np.cos(lon),
+                         np.sin(lon),
+                         np.cos(lat),
+                        # (dem-dem_mean)/dem_std,
+                        np.tile(np.cos(t.timetuple().tm_yday / 365 * np.pi).reshape(-1, 1), lon.shape),
+                        np.tile(np.cos(t.hour / 24 * np.pi).reshape(-1, 1), lon.shape), ], axis=0)
+    return geo_data
 
 
 
 
+########################### 时间编码
+1. 相对时间、时间步长、预报时效 编码
+def pos_encoding(t, channels):
+    t = t.unsqueeze(-1).type(torch.float)  # 确保t是浮点类型并增加一个维度
+    inv_freq = 1.0 / (
+        10000
+        ** (torch.arange(0, channels, 2, device=t.device).float() / channels)
+    )
+    t_expand = t.repeat(1, channels // 2) * inv_freq
+    pos_enc_a = torch.sin(t_expand)
+    pos_enc_b = torch.cos(t_expand)
+    pos_enc = torch.cat([pos_enc_a, pos_enc_b], dim=-1)
+    return pos_enc
+​
+# 为64个时间步生成位置编码
+t1 = pos_encoding(torch.tensor([1] * 1).long(), channels=6)
+t2 = pos_encoding(torch.tensor([2] * 1).long(), channels=6)
+​
+print(t1) #tensor([[0.8415, 0.0464, 0.0022, 0.5403, 0.9989, 1.0000]])
+print(t2) #tensor([[ 0.9093,  0.0927,  0.0043, -0.4161,  0.9957,  1.0000]])
+
+2. 绝对时间 编码
+								  
 
 
 
