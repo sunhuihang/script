@@ -1696,7 +1696,66 @@ lat = np.array(y)
 shp = geopandas.read_file('province_9south.shp')
 t = temp.salem.roi(shape=shp)
 
+################################ geopandas #######################################
+#读取shp 和 buffer外扩范围，获取2各geometry（画图显示的范围边界信息）
+def get_polygons_and_buffer(shp_input,distance):
+    polygons = gpd.read_file(shp_input)		#读取shp文件
+    polygons_ = polygons.to_crs(3857)		#3857投影，改投影下，单位为m ，WGS84 也就是4326下，单位为度
+    polygons_buffered = polygons_.buffer(distance*1000) #distance单位为km 转为 单位m   #进行buffer操作，返回的是geometry对象
+    polygons_buffered = polygons_buffered.to_crs(4326)	#转为4326投影
+    return polygons.geometry,polygons_buffered	#都返回为geometry对象
 
+#判断外扩后的区域 + 画长方形图的四个角,生成一个0.1度分辨率的二维经纬度数组，来计算所在省份
+def get_area_provinces(polygons_buffered,extend=True,return_box=False):
+    # lon_min,lat_min,lon_max,lat_max = polygons_buffered.bounds.iloc[0].values  #获取shp文件的lat lon 最大和最小值
+    lon_min,lat_min,lon_max,lat_max = polygons_buffered.bounds #获取shp文件的lat lon 最大和最小值
+    
+    lon = np.arange(lon_min,lon_max+0.1,0.1)
+    lat = np.arange(lat_min,lat_max+0.1,0.1)
+    lon_grid, lat_grid = np.meshgrid(lon, lat)
+    stations = gpd.GeoDataFrame({
+        'lat': lat_grid.flatten(),
+        'lon': lon_grid.flatten()
+    }, geometry=gpd.points_from_xy(lon_grid.flatten(), lat_grid.flatten()))  #手动创建一个类似shp文件的对象
+
+    provinces_gdf = get_provinces_gdf()
+    fig_provinces = provinces_gdf.loc[provinces_gdf.geometry.apply(lambda geom: stations.geometry.apply(geom.contains).any())]  #根据每个点，确定所在的省份
+    if return_box:
+        return fig_provinces['省/直辖市'].to_list(),[lon_min,lon_max,lat_min,lat_max]
+    else:
+        return fig_provinces['省/直辖市'].to_list()
+
+### 根据geometry对象，在图上打点写字，用于绘制省市区县名
+def draw_polygons_names(ax,geometries,names,text=False):
+    fplt.add_polygons(ax, geometries, fc='none', ec='black', lw=0.55, zorder=2) # 这一行根据shp的geometries()属性画外框
+    if text:
+        lons = [f.representative_point().x for f in geometries]
+        lats = [f.representative_point().y for f in geometries]
+        map_crs = ccrs.PlateCarree()
+        data_crs = ccrs.PlateCarree()
+
+        for lon_, lat_, name in zip(lons, lats, names):
+            ax.text(
+                x=lon_,
+                y=lat_,
+                s=name,
+                ha='center',
+                va='center',
+                clip_on=True,
+                clip_box=ax.bbox,
+                transform=data_crs,
+                fontsize=12,
+                zorder=1
+                )
+
+
+##绘制geometry对象的边界
+import frykit.plot as fplt
+fplt.add_polygons(ax, polygons, fc='none', ec='red', lw=1.55, zorder=1) 
+fplt.add_polygons(ax, polygons_buffered, fc='none', ec='blue', lw=1.55, zorder=1) 
+	    
+#########################################################################################
+	    
 #查看内存已用情况
 import psutil
 import os
