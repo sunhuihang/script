@@ -2146,3 +2146,16 @@ tmp_qpe = tmp_qpe[..., :w, :h]
 dbz = torch.nn.functional.pad(dbz, (25, 25, 25, 25), value=float(-0.5)) #这里使用-0.5，也就是归一化前为0的
 。。。。。。
 output = tmp_qpe[...,25:-25,25:-25].squeeze()
+
+
+####################################  存储/读取txt存储的逐行文件信息 #####################
+#存储
+with open(f'./{split}.txt', 'w') as file:
+    for item in precip_png_sel:
+        # path_sel = f'{data_dir}/precip_png/{item}'
+        path_sel = item
+        file.write(path_sel + '\n')
+#读取
+files_txt = f'{self.list_dir}/{split}.txt'
+with open(files_txt, 'r') as file:
+        samples = sorted([line.strip() for line in file])
