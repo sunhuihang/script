@@ -20,6 +20,7 @@ zip output.zip /path/to/file
 sshpass -p pwd123 scp -r qixiang@192.168.0.18:/home/qixiang/SHARE/us_data .
 sshpass -p pwd123 rsync -avz qixiang@192.168.0.18:/home/qixiang/SHARE/us_data . #-a 为保持原始权限，v是显示详细，z是压缩传输
 
+scp 指定端口 -P 10023
 
 #在shell中用函数封装实现批量注释的作用
 #把command1和2封装到dump函数中，但不调用，相当于注释掉了
