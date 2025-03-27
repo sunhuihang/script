@@ -9,6 +9,15 @@ wget -c -r ftp://ftp.gscloud.cn/* --ftp-user "${name}" --ftp-password "${passwor
 tar xvf xx.tar 或 tar xvf xx.tar.gz
 tar xvf xx.tar -C ../dir #解压到dir文件夹
 
+# 使用 gzip 压缩（生成 .tar.gz 或 .tgz 文件）
+tar -czvf archive.tar.gz my_folder/
+# 使用 bzip2 压缩（生成 .tar.bz2 文件，压缩率更高但速度更慢）
+tar -cjvf archive.tar.bz2 my_folder/
+# 使用 xz 压缩（生成 .tar.xz 文件，压缩率最高但速度最慢）
+tar -cJvf archive.tar.xz my_folder/
+
+
+
 #解压zip
 unzip -o xx.zip -d dir #-o覆盖重名文件,-d指定解压dir目录下
 #把文件夹压缩为zip
