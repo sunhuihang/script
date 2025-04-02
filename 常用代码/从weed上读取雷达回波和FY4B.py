@@ -223,7 +223,7 @@ def get_sat_values(t,dbz_lon,dbz_lat,weed_url='http://192.168.0.162:8888/'):
     fl = [f['FullPath'] for f in fl['Entries'] if f['FullPath'].endswith('nc')]
     t_1 = t - pd.Timedelta(hours=1)
     if t_1.day != t.day:
-        file_list = WF.list(f'/radar/FY4B_L1/{t_1.year}{str(t_1.month).zfill(2)}{str(t_1.day).zfill(2)}')
+        file_list = WF.list(f'/radar/FY4B_L1/{t_1.year}/{t_1.year}{str(t_1.month).zfill(2)}{str(t_1.day).zfill(2)}')
         fl.extend([f['FullPath'] for f in file_list['Entries'] if f['FullPath'].endswith('nc')])
     tl = pd.to_datetime(pd.Series([os.path.basename(f).split('_')[-4] for f in fl]), format='%Y%m%d%H%M%S') + dt.timedelta(minutes=15)
     sat_data = pd.DataFrame({'file': fl, 'time': tl})
