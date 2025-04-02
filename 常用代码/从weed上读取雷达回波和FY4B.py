@@ -165,6 +165,7 @@ from glob import glob
 def get_dbz(t,weed_url='http://192.168.0.162:8888/'):
     '''
     输入例如 '20240506 0030' 或datetime格式时间
+    雷达回波是北京时
     '''
     try:
         t = pd.to_datetime(t)
@@ -212,6 +213,9 @@ import xarray as xr
 from loguru import logger
 
 def get_sat_values(t,dbz_lon,dbz_lat,weed_url='http://192.168.0.162:8888/'):
+    '''
+    卫星是世界时，注意跟雷达回波不一样
+    '''
     try:
         t = pd.to_datetime(t)
     except:
