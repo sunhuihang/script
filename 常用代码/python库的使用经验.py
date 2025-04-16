@@ -2159,3 +2159,10 @@ with open(f'./{split}.txt', 'w') as file:
 files_txt = f'{self.list_dir}/{split}.txt'
 with open(files_txt, 'r') as file:
         samples = sorted([line.strip() for line in file])
+
+#############  读取存储在网页上的文件 ######################
+import requests
+import pandas as pd
+import io
+http_url = 'http://192.168.0.162:8888/station/china_1h/2024/202410/20241010/SURF_CHN_MUL_HOR_2024101007.csv'
+pd.read_csv(io.BytesIO(requests.get(http_url).content))
