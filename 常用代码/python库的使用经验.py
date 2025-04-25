@@ -1469,6 +1469,21 @@ def create_gif(source, name, fps):
     imageio.mimsave(name, frames, 'GIF', fps=fps,loop=0)
     print(f"{name} 处理完成")
 
+import imageio.v2 as imageio
+def create_gif(source, name, fps):
+    """ 算子正式用的
+    生成gif的函数，原始图片仅支持png
+    source: 为png图片列表（排好序）
+    name : 生成的文件名称
+    # duration: 每张图片之间的时间间隔
+    fps : 每秒帧数
+    """
+    frames = []   # 读入缓冲区
+    for img in source:
+        frames.append(imageio.imread(img, mode='F', pilmode="RGB"))
+    imageio.mimsave(name, frames, 'GIF', fps=fps,loop=0)
+    print(f"{name} 处理完成")
+
 png_list = glob('figure/png/*.png')
 create_gif(png_list,f'figure/gif/test.gif',2)
 
