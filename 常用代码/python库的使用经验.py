@@ -1485,7 +1485,7 @@ def create_gif(source, name, fps):
     print(f"{name} 处理完成")
 
 png_list = glob('figure/png/*.png')
-create_gif(png_list,f'figure/gif/test.gif',2)
+create_gif(png_list,f'figure/gif/test.gif',1.4)
 
 
 
