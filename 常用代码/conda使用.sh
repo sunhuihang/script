@@ -65,6 +65,12 @@ conda env remove -n nowcast_test
 1.vim anaconda3/envs/环境名/lib/esmf.mk 
 
 ######## 解决jupyter 无环境问题
+方法1
 conda install ipykernel
 python -m ipykernel install --user --name sunhh  #把sunhh环境加入可选项
+
+方法2
+vscode中 按 ctl+shift+p 搜索 setting.jspn,就是"打开工作区设置"
+打开setting.json
+改这个 "python.defaultInterpreterPath": "/home/qixiang/anaconda3/envs/sunhh" 
 ###########################################################################
