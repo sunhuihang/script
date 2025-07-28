@@ -1487,8 +1487,38 @@ def create_gif(source, name, fps):
 png_list = glob('figure/png/*.png')
 create_gif(png_list,f'figure/gif/test.gif',1.4)
 
+# 用ffmpeg 画gif更快
+conda install ffmpeg=4.4.0 -c conda-forge
+def pngs_to_gif(png_list, output_gif, fps=2):
+    start_time = time.time()
+    base_dir = os.path.abspath(os.path.dirname(png_list[0]))
+    absolute_png_list = [os.path.abspath(f) for f in png_list]
 
+    # 创建文件列表（使用当前目录，而非临时目录）
+    list_file = os.path.join(base_dir, "ffmpeg_file_list.txt")
+    with open(list_file, 'w') as f:
+        for png_path in absolute_png_list:
+            f.write(f"file '{png_path}'\n")
+    # 第一步：生成调色板
+    palette_path = os.path.join(base_dir, "palette.png")
+    print(f'list_file:{list_file}')
+    print(f'palette_path:{palette_path}')
+    os.system(
+        f'ffmpeg -y -f concat -safe 0 -r {fps} -i "{list_file}" '
+        f'-vf "palettegen=stats_mode=diff" -y "{palette_path}"'
+    )
 
+    # 第二步：生成GIF
+    os.system(
+        f'ffmpeg -y -f concat -safe 0 -r {fps} -i "{list_file}" -i "{palette_path}" '
+        f'-lavfi "fps={fps},paletteuse=dither=sierra2_4a" -y "{output_gif}"'
+    )
+
+    # 清理临时文件
+    os.remove(list_file)
+    os.remove(palette_path)
+    print(f"{output_gif} 处理完成，用时{np.round(time.time()-start_time,2)}秒")
+    return
 
 ############################### xarray ####################################
 import xarray as xr
