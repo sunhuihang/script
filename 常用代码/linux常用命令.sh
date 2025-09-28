@@ -37,3 +37,13 @@ dump(){
 command1
 command2
 }
+
+
+
+#rsync 同步命令，我用来当ssh的高替
+#普通传输（rsync会增量传输，只传不同的）
+rsync -avz  /mnt/glusterfs33/qixiang/l2/l2e/2025/9/25/* /mnt/glusterfs33/qixiang/SHARE/同化测试数据/第二批测试数据/   
+# 排除--exclude='*.ovr' .ovr后缀的文件  ，   --dry-run 打印显示要传输的内容  不进行传输
+rsync -avz --exclude='*.ovr' --dry-run /mnt/glusterfs33/qixiang/l2/l2e/2025/9/25/* /mnt/glusterfs33/qixiang/SHARE/同化测试数据/第二批测试数据/
+# 实际使用，剔除ovr后缀文件， --progress 显示进度
+rsync -avz --exclude='*.ovr' --progress /mnt/glusterfs159/rscb/common/image/l2/l2e/2025/9/25/ /mnt/glusterfs33/qixiang/SHARE/同化测试数据/第二批测试数据/s2时序影像/
