@@ -1,0 +1,11 @@
+改路径为定时运行预报路径
+download_ahi.sh为下载当日UTC时间为00时的AHI数据（指定时间下载见raw中）
+download_gfs.sh为下载当日UTC时间为00时的GFS 0.25° 48小时的预报数据（指定时间下载见raw中）
+download_gdas.sh为下载当日UTC时间为00时的GDAS/GFS 观测预处理bufr数据（指定时间下载见raw中）
+
+env.py为每日运行wps、wrfda、wrf的基本参数以及一些路径设置
+run_main.py为运行wps、wrfda、wrf的主程序，用来调用各个子程序
+run_wps.py为运行wps
+run_real.py为运行real.exe
+run_wrfda.py为运行wrfda(更新侧边界在run_wrf.py中，便于多参数化成员运行)
+run_wrf.py为运行wrf
