@@ -19,7 +19,7 @@ conda update -n base -c defaults conda
 
 需要安装的库
 conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia #nvidia 11.4的cuda驱动版本可以装11.8的cuda-pytorch
-或 pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu118   #12.2版本的cuda可以装新版本pytorch
+或 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124   #12.4和12.1兼容12.2版本的cuda
 conda install -c conda-forge matplotlib cartopy gdal netcdf4 eccodes xarray rioxarray pandas cfgrib h5py hdf4 hdf5 jupyter onnx pillow scipy xesmf scikit-learn scikit-image pytorch-lightning tqdm torchinfo einops timm pathlib pathlib2 pynvml imageio
 conda install -c conda-forge tensorboard #这个要单独装
 pip install -U 'jsonargparse[signatures]>=4.26.1' #只能pip安装
