@@ -19,7 +19,7 @@ class DepthwiseSeparableConv(nn.Module):
 
 class DoubleDSConv(nn.Module):
     """(convolution => [BN] => ReLU) * 2 堆叠时一般都是conv norm act"""
-    
+    """ 有写成DoubleDSConv 也有写成 DoubleConvDS的"""
     def __init__(self, in_channels, out_channels):
         super().__init__()
         self.double_ds_conv = nn.Sequential(
