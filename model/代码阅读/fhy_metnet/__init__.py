@@ -1,0 +1,1 @@
+from .fusion_model_v4 import FusionModel_v4
