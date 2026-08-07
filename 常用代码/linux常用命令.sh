@@ -47,3 +47,51 @@ rsync -avz  /mnt/glusterfs33/qixiang/l2/l2e/2025/9/25/* /mnt/glusterfs33/qixiang
 rsync -avz --exclude='*.ovr' --dry-run /mnt/glusterfs33/qixiang/l2/l2e/2025/9/25/* /mnt/glusterfs33/qixiang/SHARE/同化测试数据/第二批测试数据/
 # 实际使用，剔除ovr后缀文件， --progress 显示进度
 rsync -avz --exclude='*.ovr' --progress /mnt/glusterfs159/rscb/common/image/l2/l2e/2025/9/25/ /mnt/glusterfs33/qixiang/SHARE/同化测试数据/第二批测试数据/s2时序影像/
+
+
+
+
+#gdal处理dem数据
+
+#全中国转换
+gdal_merge.py -o dem_China_30m.tif cut_n00e060.tif cut_n00e090.tif cut_n00e120.tif cut_n30e060.tif cut_n30e090.tif cut_n30e120.tif
+gdalwarp -t_srs "+proj=longlat +datum=WGS84 +no_defs" -co "FORMAT=NC4" dem_China_30m.tif dem_China_30m.nc
+# cdo remapbil,China_2km_grid.txt dem_China_30m.nc dem_China_2km.nc  #超级费内存，要约200G
+
+
+
+# 直接gdal tif上处理分辨率，内存占用更小  虽然te 不是整数，但是处理下来 才能是整数
+
+#2km 分辨率 ，处理出来是    lon : 70 to 137 by 0.02 degrees_east
+                           lat : 15 to 54 by 0.02 degrees_north
+
+gdalwarp \
+  -t_srs "+proj=longlat +datum=WGS84 +no_defs" \
+  -te 69.99 14.99 137.01 54.01 \
+  -tr 0.02 0.02 \
+  -r bilinear \
+  -co COMPRESS=DEFLATE \
+  -co TILED=YES \
+  -co BIGTIFF=YES \
+  dem_China_30m.tif \
+  dem_China_2km.tif
+gdalwarp -t_srs "+proj=longlat +datum=WGS84 +no_defs" -co "FORMAT=NC4" dem_China_2km.tif dem_China_2km.nc
+
+#1km 分辨率 ，处理出来是    lon : 70 to 137 by 0.01 degrees_east
+                           lat : 15 to 54 by 0.01 degrees_north
+gdalwarp \
+  -t_srs "+proj=longlat +datum=WGS84 +no_defs" \
+  -te 69.995 -0.005 140.005 60.005 \
+  -tr 0.01 0.01 \
+  -r bilinear \
+  -co COMPRESS=DEFLATE \
+  -co TILED=YES \
+  -co BIGTIFF=YES \
+  dem_China_30m.tif \
+  dem_China_1km.tif
+gdalwarp -t_srs "+proj=longlat +datum=WGS84 +no_defs" -co "FORMAT=NC4" dem_China_1km.tif dem_China_1km.nc
+
+
+#小区域 转换 ，可用用cdo ，当然更可以用gdal
+cdo cdo sellonlatbox,98,125,15,29 dem_China_30m.nc dem_CMA_30m.nc
+cdo remapbil,CMA_2km_grid.txt dem_CMA_30m.nc dem_CMA_2km.nc 
