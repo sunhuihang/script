@@ -60,7 +60,7 @@ gdalwarp -t_srs "+proj=longlat +datum=WGS84 +no_defs" -co "FORMAT=NC4" dem_China
 
 
 
-# 直接gdal tif上处理分辨率，内存占用更小  虽然te 不是整数，但是处理下来 才能是整数
+# 直接gdal tif上处理分辨率，内存占用更小  虽然te 不是整数，但是处理下来 才能是整数.也就是起/止点 分别要小/大 半个分辨率
 
 #2km 分辨率 ，处理出来是    lon : 70 to 137 by 0.02 degrees_east
                            lat : 15 to 54 by 0.02 degrees_north
@@ -81,7 +81,7 @@ gdalwarp -t_srs "+proj=longlat +datum=WGS84 +no_defs" -co "FORMAT=NC4" dem_China
                            lat : 15 to 54 by 0.01 degrees_north
 gdalwarp \
   -t_srs "+proj=longlat +datum=WGS84 +no_defs" \
-  -te 69.995 -0.005 140.005 60.005 \
+  -te 69.995 14.995 137.005 54.005 \
   -tr 0.01 0.01 \
   -r bilinear \
   -co COMPRESS=DEFLATE \
